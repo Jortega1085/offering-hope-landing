@@ -889,7 +889,7 @@
       <button class="copy" id="gmailBtn">Open in Gmail</button>
       <button class="email" id="copyBtn">Copy edits</button>
     </div>
-    <p class="modal-hint">Hit <strong>Copy edits</strong> and paste into a reply to Joe's email. Or use <strong>Open in Gmail</strong> to pop a new tab pre-addressed to him (your edits are auto-copied so you just paste).</p>
+    <p class="modal-hint">Hit <strong>Copy edits</strong> and paste into a reply to Joe's email. Or use <strong>Open in Gmail</strong> to pop a new tab with your edits already filled in.</p>
   </div>
 </div>
 
@@ -1060,16 +1060,27 @@
 
   document.getElementById("gmailBtn").addEventListener("click", async () => {
     const text = buildDiffText();
-    // Auto-copy first so the user just hits paste once Gmail opens.
-    try { await navigator.clipboard.writeText(text); } catch (e) {}
     const subject = encodeURIComponent("Built To Break — my edits");
-    // Gmail web compose URL. Subject only — body is in clipboard (avoids URL length limits).
-    const url = `https://mail.google.com/mail/?view=cm&fs=1&to=joe@bizpleaser.ai&su=${subject}`;
+    const encodedBody = encodeURIComponent(text);
+
+    // Put the body directly in the Gmail compose URL so it appears pre-filled.
+    // Gmail truncates body silently when URL gets too long — fall back to clipboard.
+    let url = `https://mail.google.com/mail/?view=cm&fs=1&to=joe@bizpleaser.ai&su=${subject}&body=${encodedBody}`;
+    let bodyInUrl = true;
+    if (url.length > 6500) {
+      url = `https://mail.google.com/mail/?view=cm&fs=1&to=joe@bizpleaser.ai&su=${subject}`;
+      bodyInUrl = false;
+    }
+
+    // Always copy to clipboard too — safety net if URL body truncates or browser strips it.
+    try { await navigator.clipboard.writeText(text); } catch (e) {}
+
     window.open(url, "_blank");
+
     const btn = document.getElementById("gmailBtn");
     const orig = btn.textContent;
-    btn.textContent = "Opened — paste!";
-    setTimeout(() => { btn.textContent = orig; }, 2200);
+    btn.textContent = bodyInUrl ? "Gmail opened!" : "Opened — paste from clipboard";
+    setTimeout(() => { btn.textContent = orig; }, 2400);
   });
 
   // Initial recount in case localStorage had stuff
