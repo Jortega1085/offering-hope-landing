@@ -691,6 +691,16 @@
     color: var(--paper);
   }
   .modal-foot .email:hover { background: var(--gold-deep); border-color: var(--gold-deep); }
+  .modal-hint {
+    padding: 0 28px 18px;
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--muted);
+    background: var(--paper);
+    text-align: center;
+    line-height: 1.5;
+  }
+  .modal-hint strong { color: var(--ink); font-weight: 500; }
 
   .empty-state {
     text-align: center;
@@ -876,9 +886,10 @@
     </div>
     <div class="modal-foot">
       <button class="cancel" id="cancelBtn">Keep editing</button>
-      <button class="copy" id="copyBtn">Copy to clipboard</button>
-      <button class="email" id="emailBtn">Email Joe</button>
+      <button class="copy" id="gmailBtn">Open in Gmail</button>
+      <button class="email" id="copyBtn">Copy edits</button>
     </div>
+    <p class="modal-hint">Hit <strong>Copy edits</strong> and paste into a reply to Joe's email. Or use <strong>Open in Gmail</strong> to pop a new tab pre-addressed to him (your edits are auto-copied so you just paste).</p>
   </div>
 </div>
 
@@ -1047,17 +1058,18 @@
     }
   });
 
-  document.getElementById("emailBtn").addEventListener("click", () => {
+  document.getElementById("gmailBtn").addEventListener("click", async () => {
     const text = buildDiffText();
+    // Auto-copy first so the user just hits paste once Gmail opens.
+    try { await navigator.clipboard.writeText(text); } catch (e) {}
     const subject = encodeURIComponent("Built To Break — my edits");
-    const body = encodeURIComponent(text + "\n\n— Hope");
-    // mailto has URL length limits; trim if absurdly long
-    const url = `mailto:joe@bizpleaser.ai?subject=${subject}&body=${body}`;
-    if (url.length > 7500) {
-      alert("Your edits are too long for an email link. Use 'Copy to clipboard' and paste into a new email to joe@bizpleaser.ai.");
-      return;
-    }
-    window.location.href = url;
+    // Gmail web compose URL. Subject only — body is in clipboard (avoids URL length limits).
+    const url = `https://mail.google.com/mail/?view=cm&fs=1&to=joe@bizpleaser.ai&su=${subject}`;
+    window.open(url, "_blank");
+    const btn = document.getElementById("gmailBtn");
+    const orig = btn.textContent;
+    btn.textContent = "Opened — paste!";
+    setTimeout(() => { btn.textContent = orig; }, 2200);
   });
 
   // Initial recount in case localStorage had stuff
