@@ -1,0 +1,1416 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Offering Hope — Built To Break</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --gold: #b8962e;
+    --gold-deep: #8a6f1f;
+    --gold-soft: #d4b558;
+    --ink: #14110d;
+    --ink-soft: #2b2620;
+    --cream: #f6f1e8;
+    --cream-deep: #ece4d2;
+    --paper: #fbf8f1;
+    --line: rgba(20, 17, 13, 0.12);
+    --line-gold: rgba(184, 150, 46, 0.32);
+    --muted: #6b6457;
+
+    --serif: "Cormorant Garamond", "Adobe Garamond Pro", Garamond, "Times New Roman", serif;
+    --sans: "Inter", system-ui, -apple-system, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection { background: var(--gold); color: var(--paper); }
+
+  /* ---------- Typography ---------- */
+  h1, h2, h3, h4 {
+    font-family: var(--serif);
+    font-weight: 500;
+    line-height: 1.08;
+    letter-spacing: -0.005em;
+    color: var(--ink);
+    margin: 0;
+  }
+  .display { font-size: clamp(48px, 7vw, 96px); font-weight: 500; letter-spacing: -0.02em; }
+  .display em { font-style: italic; font-weight: 400; color: var(--gold-deep); }
+  .h2 { font-size: clamp(36px, 4.6vw, 60px); }
+  .h3 { font-size: clamp(24px, 2.4vw, 32px); }
+  .eyebrow {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    margin: 0;
+  }
+  .eyebrow.on-dark { color: var(--gold-soft); }
+  .lede {
+    font-family: var(--serif);
+    font-size: clamp(20px, 2vw, 26px);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--ink-soft);
+    line-height: 1.45;
+  }
+  p { margin: 0 0 1em; }
+
+  /* ---------- Layout ---------- */
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+  .wrap-narrow { max-width: 880px; margin: 0 auto; padding: 0 32px; }
+  section { padding: 120px 0; position: relative; }
+  @media (max-width: 720px) {
+    section { padding: 80px 0; }
+    .wrap, .wrap-narrow { padding: 0 20px; }
+  }
+
+  /* ---------- Nav ---------- */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background: rgba(251, 248, 241, 0.82);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    max-width: 1240px; margin: 0 auto;
+    padding: 18px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 24px;
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none; color: var(--ink);
+  }
+  .nav-logo img { height: 44px; width: auto; display: block; }
+  .nav-logo .wm {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+  .nav-links {
+    display: flex; gap: 36px; align-items: center;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--ink-soft);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    transition: color 0.15s ease;
+  }
+  .nav-links a:hover { color: var(--gold-deep); }
+  .nav-cta {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 11px 22px;
+    background: var(--ink);
+    color: var(--paper);
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.15s ease;
+  }
+  .nav-cta:hover { background: var(--gold-deep); }
+  @media (max-width: 720px) {
+    .nav-links { display: none; }
+    .nav-inner { padding: 14px 20px; }
+    .nav-logo img { height: 36px; }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    background:
+      radial-gradient(ellipse 80% 60% at 75% 40%, rgba(184, 150, 46, 0.22), transparent 70%),
+      radial-gradient(ellipse 60% 50% at 20% 80%, rgba(184, 150, 46, 0.10), transparent 70%),
+      linear-gradient(180deg, var(--paper) 0%, var(--cream) 100%);
+    overflow: hidden;
+    padding: 80px 0 120px;
+  }
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 64px;
+    align-items: center;
+    min-height: 70vh;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 14px;
+    margin-bottom: 28px;
+  }
+  .hero-eyebrow::after {
+    content: ""; width: 44px; height: 1px; background: var(--gold);
+  }
+  .hero h1 { margin-bottom: 28px; }
+  .hero-lede { max-width: 560px; margin-bottom: 40px; }
+  .hero-meta {
+    display: flex; flex-wrap: wrap; gap: 28px 40px;
+    padding: 24px 0;
+    border-top: 1px solid var(--line-gold);
+    border-bottom: 1px solid var(--line-gold);
+    margin-bottom: 36px;
+  }
+  .meta-item .meta-k {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.24em;
+    text-transform: uppercase; color: var(--gold-deep);
+    margin-bottom: 4px;
+  }
+  .meta-item .meta-v {
+    font-family: var(--serif); font-size: 22px; font-weight: 500; color: var(--ink);
+    line-height: 1.2;
+  }
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 18px 32px;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: all 0.18s ease;
+    cursor: pointer;
+    border: none;
+  }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--paper);
+    border: 1px solid var(--ink);
+  }
+  .btn-primary:hover {
+    background: var(--gold-deep);
+    border-color: var(--gold-deep);
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+  }
+  .btn-ghost:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .btn .arrow {
+    display: inline-block;
+    transition: transform 0.18s ease;
+  }
+  .btn:hover .arrow { transform: translateX(4px); }
+
+  /* Hero visual */
+  .hero-visual {
+    position: relative;
+    aspect-ratio: 4/5;
+    background:
+      radial-gradient(ellipse at 50% 40%, rgba(184, 150, 46, 0.35), transparent 65%),
+      linear-gradient(135deg, #1a1611 0%, #2b2419 50%, #14110d 100%);
+    border: 1px solid var(--gold);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-visual::before {
+    content: "";
+    position: absolute; inset: 12px;
+    border: 1px solid rgba(184, 150, 46, 0.4);
+    pointer-events: none;
+  }
+  .hero-visual-content {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    justify-content: space-between;
+    padding: 56px;
+    color: var(--cream);
+  }
+  .hero-visual-top {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.28em;
+    text-transform: uppercase; color: var(--gold-soft);
+    display: flex; justify-content: space-between;
+  }
+  .lotus-svg {
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%; height: auto;
+    opacity: 0.85;
+  }
+  .hero-visual-bottom {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 28px;
+    line-height: 1.25;
+    font-weight: 400;
+    z-index: 2;
+    text-shadow: 0 2px 24px rgba(0,0,0,0.5);
+  }
+  .hero-visual-bottom .quote-mark {
+    font-size: 64px;
+    line-height: 0;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 24px;
+  }
+  .hero-visual-attr {
+    font-family: var(--sans);
+    font-style: normal;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-top: 18px;
+    display: block;
+  }
+
+  @media (max-width: 920px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+    .hero-visual { aspect-ratio: 1/1; max-width: 480px; }
+  }
+
+  /* ---------- Section dividers / shared ---------- */
+  .section-head {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+  .section-head .eyebrow { margin-bottom: 18px; }
+  .section-head h2 { max-width: 800px; margin: 0 auto; }
+  .section-head .lede { max-width: 680px; margin: 24px auto 0; }
+  .ornament {
+    width: 64px; height: 1px; background: var(--gold);
+    margin: 24px auto; position: relative;
+  }
+  .ornament::before, .ornament::after {
+    content: ""; position: absolute;
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    top: 50%; transform: translateY(-50%);
+  }
+  .ornament::before { left: -14px; }
+  .ornament::after { right: -14px; }
+
+  /* ---------- Pillars ---------- */
+  .pillars-section {
+    background: var(--ink);
+    color: var(--cream);
+  }
+  .pillars-section h2, .pillars-section h3 { color: var(--cream); }
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(184, 150, 46, 0.25);
+    border: 1px solid rgba(184, 150, 46, 0.25);
+  }
+  .pillar {
+    background: var(--ink);
+    padding: 56px 40px;
+    position: relative;
+  }
+  .pillar-num {
+    font-family: var(--serif);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    color: var(--gold);
+    margin-bottom: 32px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .pillar-num::after {
+    content: ""; flex: 1; height: 1px; background: rgba(184, 150, 46, 0.3);
+  }
+  .pillar h3 {
+    font-size: 32px;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+  .pillar p {
+    color: rgba(246, 241, 232, 0.72);
+    font-size: 15px;
+    line-height: 1.65;
+    margin: 0;
+  }
+  .pillar-icon {
+    width: 32px; height: 32px;
+    stroke: var(--gold);
+    stroke-width: 1;
+    fill: none;
+    margin-bottom: 28px;
+  }
+  @media (max-width: 720px) {
+    .pillars-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- Speech section ---------- */
+  .speech-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .speech-title {
+    font-family: var(--serif);
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 500;
+    line-height: 1.05;
+    margin-bottom: 20px;
+  }
+  .speech-subtitle {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 22px;
+    color: var(--gold-deep);
+    line-height: 1.3;
+    margin-bottom: 36px;
+  }
+  .speech-tag {
+    display: inline-block;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.24em;
+    text-transform: uppercase; color: var(--gold-deep);
+    padding: 6px 12px;
+    border: 1px solid var(--gold);
+    margin-right: 8px; margin-bottom: 8px;
+  }
+  .structure {
+    border-top: 1px solid var(--line);
+  }
+  .structure-row {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 32px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: baseline;
+  }
+  .structure-time {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+  }
+  .structure-content h4 {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .structure-content p {
+    font-size: 14px;
+    color: var(--muted);
+    margin: 0;
+    line-height: 1.55;
+  }
+  @media (max-width: 920px) {
+    .speech-grid { grid-template-columns: 1fr; gap: 48px; }
+    .structure-row { grid-template-columns: 100px 1fr; gap: 20px; }
+  }
+
+  /* ---------- Audience ---------- */
+  .audience-section {
+    background: var(--cream);
+  }
+  .audience-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 64px;
+  }
+  .audience-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: 36px 32px;
+    position: relative;
+  }
+  .audience-card::before {
+    content: ""; position: absolute;
+    top: 0; left: 0; width: 32px; height: 1px;
+    background: var(--gold);
+  }
+  .audience-card h4 {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+  .audience-card p {
+    font-size: 14px; color: var(--muted); margin: 0; line-height: 1.6;
+  }
+  @media (max-width: 720px) {
+    .audience-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- Hope (Bio) ---------- */
+  .bio-grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .bio-portrait {
+    aspect-ratio: 4/5;
+    background:
+      radial-gradient(ellipse at 50% 30%, rgba(184, 150, 46, 0.25), transparent 60%),
+      linear-gradient(160deg, #2a2419 0%, #14110d 100%);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--gold);
+  }
+  .bio-portrait::before {
+    content: "";
+    position: absolute; inset: 12px;
+    border: 1px solid rgba(184, 150, 46, 0.3);
+  }
+  .bio-portrait-label {
+    position: absolute;
+    bottom: 32px; left: 32px; right: 32px;
+    color: var(--cream);
+    z-index: 2;
+  }
+  .bio-portrait-label .name {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .bio-portrait-label .role {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+  }
+  .bio-portrait .lotus-bg {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -55%);
+    width: 75%;
+    opacity: 0.4;
+  }
+  .bio-content .eyebrow { margin-bottom: 18px; }
+  .bio-content h2 { margin-bottom: 28px; }
+  .bio-content p {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    margin-bottom: 18px;
+  }
+  .bio-credentials {
+    display: flex; flex-wrap: wrap; gap: 12px;
+    margin-top: 32px;
+  }
+  .bio-credentials .cred {
+    font-size: 12px; font-weight: 500; letter-spacing: 0.06em;
+    color: var(--ink);
+    padding: 8px 16px;
+    background: var(--cream);
+    border: 1px solid var(--line-gold);
+  }
+  .bio-quote {
+    margin-top: 40px;
+    padding: 24px 28px;
+    border-left: 2px solid var(--gold);
+    background: var(--cream);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  @media (max-width: 920px) {
+    .bio-grid { grid-template-columns: 1fr; gap: 48px; }
+  }
+
+  /* ---------- Testimonials ---------- */
+  .testimonials-section { background: var(--ink); color: var(--cream); }
+  .testimonials-section h2 { color: var(--cream); }
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 64px;
+  }
+  .testimonial {
+    padding: 40px 32px;
+    border: 1px solid rgba(184, 150, 46, 0.25);
+    position: relative;
+  }
+  .testimonial .quote-mark {
+    font-family: var(--serif);
+    font-size: 64px;
+    line-height: 0.5;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 28px;
+  }
+  .testimonial-quote {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 19px;
+    line-height: 1.45;
+    color: var(--cream);
+    margin-bottom: 28px;
+  }
+  .testimonial-attr {
+    border-top: 1px solid rgba(184, 150, 46, 0.25);
+    padding-top: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+  }
+  .testimonial-attr .name {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--cream);
+    margin-bottom: 4px;
+  }
+  @media (max-width: 920px) {
+    .testimonials-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- CTA / Form ---------- */
+  .form-section {
+    background:
+      radial-gradient(ellipse 80% 70% at 50% 0%, rgba(184, 150, 46, 0.18), transparent 65%),
+      var(--paper);
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 80px;
+    align-items: start;
+    margin-top: 24px;
+  }
+  .form-info h2 { margin-bottom: 28px; }
+  .form-info p { color: var(--ink-soft); font-size: 17px; line-height: 1.7; }
+  .form-details {
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+  }
+  .form-detail {
+    display: flex; gap: 20px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .form-detail:last-child { border: none; }
+  .form-detail-k {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.24em;
+    text-transform: uppercase; color: var(--gold-deep);
+    min-width: 100px;
+    padding-top: 6px;
+  }
+  .form-detail-v {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .form-detail-v .sub {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--muted);
+    display: block;
+    margin-top: 4px;
+  }
+
+  /* Form card */
+  .form-card {
+    background: var(--paper);
+    border: 1px solid var(--line-gold);
+    padding: 48px;
+    position: relative;
+    box-shadow:
+      0 1px 2px rgba(20, 17, 13, 0.04),
+      0 24px 48px rgba(20, 17, 13, 0.08);
+  }
+  .form-card::before {
+    content: ""; position: absolute;
+    top: -1px; left: -1px; right: -1px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold-soft), var(--gold), var(--gold-soft));
+  }
+  .form-card h3 {
+    font-size: 28px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .form-card .form-sub {
+    font-size: 14px; color: var(--muted); margin-bottom: 32px;
+  }
+  .field { margin-bottom: 20px; }
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .field-row > .field { margin: 0; }
+  .field label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    font-family: var(--sans);
+    font-size: 15px;
+    color: var(--ink);
+    border-radius: 2px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .field select {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%238a6f1f' stroke-width='1.5' fill='none' stroke-linecap='round'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+  }
+  .field textarea { resize: vertical; min-height: 100px; font-family: var(--sans); }
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(184, 150, 46, 0.12);
+  }
+  .field input.error,
+  .field select.error {
+    border-color: #b94545;
+  }
+  .field-error {
+    color: #b94545;
+    font-size: 12px;
+    margin-top: 6px;
+    display: none;
+  }
+  .field.has-error .field-error { display: block; }
+
+  .checkbox-row {
+    display: flex; align-items: flex-start; gap: 10px;
+    margin: 8px 0 24px;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .checkbox-row input { margin-top: 3px; accent-color: var(--gold-deep); }
+  .checkbox-row a { color: var(--gold-deep); }
+
+  .form-submit {
+    width: 100%;
+    padding: 18px;
+    background: var(--ink);
+    color: var(--paper);
+    border: 1px solid var(--ink);
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.18s ease;
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+  }
+  .form-submit:hover {
+    background: var(--gold-deep);
+    border-color: var(--gold-deep);
+  }
+  .form-submit:disabled {
+    opacity: 0.6; cursor: wait;
+  }
+  .form-footnote {
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 20px;
+    line-height: 1.5;
+  }
+  .form-footnote .aho {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--gold-deep);
+  }
+
+  /* Form success state */
+  .form-success {
+    display: none;
+    text-align: center;
+    padding: 24px 0;
+  }
+  .form-success.shown { display: block; }
+  .form-card.submitted .form-body { display: none; }
+  .form-success .check {
+    width: 64px; height: 64px;
+    border: 1.5px solid var(--gold);
+    border-radius: 50%;
+    margin: 0 auto 24px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold-deep);
+  }
+  .form-success h3 {
+    font-size: 32px;
+    margin-bottom: 16px;
+  }
+  .form-success p { color: var(--muted); font-size: 15px; max-width: 360px; margin: 0 auto 12px; }
+
+  @media (max-width: 920px) {
+    .form-grid { grid-template-columns: 1fr; gap: 48px; }
+    .form-card { padding: 32px 24px; }
+    .field-row { grid-template-columns: 1fr; gap: 0; }
+    .field-row > .field { margin-bottom: 20px; }
+  }
+
+  /* ---------- Footer ---------- */
+  footer {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 80px 0 40px;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 64px;
+    margin-bottom: 64px;
+  }
+  .footer-brand img { height: 80px; width: auto; filter: brightness(0) invert(0.95); margin-bottom: 24px; }
+  .footer-tag {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 22px;
+    color: var(--gold-soft);
+    margin-bottom: 16px;
+  }
+  .footer-text {
+    color: rgba(246, 241, 232, 0.6);
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 320px;
+  }
+  .footer-col h4 {
+    color: var(--gold-soft);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    font-family: var(--sans);
+  }
+  .footer-col a, .footer-col p {
+    color: rgba(246, 241, 232, 0.7);
+    text-decoration: none;
+    font-size: 14px;
+    display: block;
+    margin-bottom: 10px;
+    transition: color 0.15s ease;
+  }
+  .footer-col a:hover { color: var(--gold-soft); }
+  .footer-bottom {
+    border-top: 1px solid rgba(184, 150, 46, 0.2);
+    padding-top: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    color: rgba(246, 241, 232, 0.5);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+  }
+  .footer-bottom .aho {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--gold-soft);
+    font-size: 14px;
+  }
+  @media (max-width: 720px) {
+    .footer-grid { grid-template-columns: 1fr; gap: 40px; margin-bottom: 40px; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#top" class="nav-logo" aria-label="Offering Hope home">
+      <img src="assets/oh-logo.png" alt="Offering Hope" />
+    </a>
+    <div class="nav-links">
+      <a href="#talk">The Talk</a>
+      <a href="#pillars">Three Pillars</a>
+      <a href="#hope">Hope</a>
+      <a href="#testimonials">Testimonials</a>
+      <a href="#reserve" class="nav-cta">Reserve a Seat</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow">
+          <span class="eyebrow">Signature Keynote · 60–90 min</span>
+        </div>
+        <h1 class="display">Built To<br/><em>Break.</em></h1>
+        <p class="hero-lede">What your body is carrying that your mind won't say. An evening with Hope Kimple — intuitive life coach, somatic practitioner, sixteen years in the work.</p>
+
+        <div class="hero-meta">
+          <div class="meta-item">
+            <div class="meta-k">Date</div>
+            <div class="meta-v">August 8, 2026</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-k">Venue</div>
+            <div class="meta-v">Prodigy Fitness</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-k">Format</div>
+            <div class="meta-v">In-person keynote</div>
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <a href="#reserve" class="btn btn-primary">Reserve a Seat <span class="arrow">→</span></a>
+          <a href="#talk" class="btn btn-ghost">About the Talk</a>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <svg class="lotus-svg" viewBox="0 0 400 400" fill="none">
+          <g stroke="#b8962e" stroke-width="0.8" opacity="0.85">
+            <!-- center bud -->
+            <path d="M200 230 C 180 200, 180 170, 200 140 C 220 170, 220 200, 200 230 Z" />
+            <path d="M200 220 C 188 200, 188 175, 200 150 C 212 175, 212 200, 200 220 Z" opacity="0.7" />
+            <!-- inner petals -->
+            <path d="M200 240 C 160 230, 130 200, 130 160 C 160 175, 185 200, 200 240 Z" />
+            <path d="M200 240 C 240 230, 270 200, 270 160 C 240 175, 215 200, 200 240 Z" />
+            <!-- mid petals -->
+            <path d="M200 250 C 145 250, 100 220, 90 170 C 130 195, 165 225, 200 250 Z" />
+            <path d="M200 250 C 255 250, 300 220, 310 170 C 270 195, 235 225, 200 250 Z" />
+            <!-- outer petals -->
+            <path d="M200 260 C 130 270, 70 250, 50 200 C 100 220, 150 245, 200 260 Z" />
+            <path d="M200 260 C 270 270, 330 250, 350 200 C 300 220, 250 245, 200 260 Z" />
+            <!-- bottom petals -->
+            <path d="M200 265 C 170 290, 130 305, 90 295 C 120 280, 160 270, 200 265 Z" />
+            <path d="M200 265 C 230 290, 270 305, 310 295 C 280 280, 240 270, 200 265 Z" />
+            <!-- stem -->
+            <path d="M200 270 Q 195 320, 205 380" />
+            <!-- detail lines -->
+            <path d="M200 145 Q 195 180, 200 220" opacity="0.5" />
+            <path d="M170 175 Q 175 210, 195 235" opacity="0.4" />
+            <path d="M230 175 Q 225 210, 205 235" opacity="0.4" />
+          </g>
+        </svg>
+        <div class="hero-visual-content">
+          <div class="hero-visual-top">
+            <span>Offering Hope</span>
+            <span>EST. 2008</span>
+          </div>
+          <div class="hero-visual-bottom">
+            <span class="quote-mark">"</span>
+            Healing is not something you find in a clinic. It is something you remember.
+            <span class="hero-visual-attr">— Hope Kimple</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THREE PILLARS ============ -->
+<section class="pillars-section" id="pillars">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow on-dark">The Method</p>
+      <div class="ornament" style="background:rgba(184,150,46,0.6)"></div>
+      <h2 class="h2">Three pillars nobody<br/>teaches us.</h2>
+      <p class="lede" style="color: rgba(246, 241, 232, 0.75)">Everything inside this work — every workshop, every keynote, every container — is built on the same three.</p>
+    </div>
+
+    <div class="pillars-grid">
+      <div class="pillar">
+        <div class="pillar-num">Pillar 01</div>
+        <svg class="pillar-icon" viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="11" />
+          <path d="M16 5 C 11 12, 11 20, 16 27 C 21 20, 21 12, 16 5 Z" />
+          <circle cx="16" cy="16" r="2" />
+        </svg>
+        <h3>Somatic<br/>Awareness</h3>
+        <p>Reading what your body is carrying — the tension, the insomnia, the rage that has nowhere to land — before it has to get any louder.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">Pillar 02</div>
+        <svg class="pillar-icon" viewBox="0 0 32 32" fill="none">
+          <path d="M10 25 Q 4 18, 8 11 Q 12 6, 16 9 Q 20 6, 24 11 Q 28 18, 22 25" />
+          <path d="M16 9 L 16 22" />
+          <path d="M12 16 L 20 16" />
+        </svg>
+        <h3>Mental<br/>Awareness</h3>
+        <p>Recognizing the old agreements that quietly run your decisions — the ones you didn't sign but keep paying for. Naming the spell so you can break it.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">Pillar 03</div>
+        <svg class="pillar-icon" viewBox="0 0 32 32" fill="none">
+          <path d="M16 4 L 19 13 L 28 13 L 21 19 L 24 28 L 16 22 L 8 28 L 11 19 L 4 13 L 13 13 Z" />
+        </svg>
+        <h3>Intuitive<br/>Awareness</h3>
+        <p>Telling the difference between fear dressed as wisdom and your gut telling the truth. Trusting the signal that was always there.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THE TALK ============ -->
+<section id="talk">
+  <div class="wrap">
+    <div class="speech-grid">
+      <div>
+        <p class="eyebrow">The Keynote</p>
+        <div class="ornament" style="margin: 24px 0"></div>
+        <h2 class="speech-title">Built To Break</h2>
+        <p class="speech-subtitle">What your body is carrying that your mind won't say.</p>
+        <p style="color: var(--ink-soft); font-size: 17px; line-height: 1.7;">Chronic tension. Insomnia. Rage. Burnout. Back, jaw, gut pain that no scan can explain. The body keeps the unprocessed — and eventually, it speaks for what the mind refused to.</p>
+        <p style="color: var(--ink-soft); font-size: 17px; line-height: 1.7;">This keynote names what's underneath, in front of a room, with a live somatic exercise that gets every hand in the air inside the first sixty seconds.</p>
+        <div style="margin-top: 28px;">
+          <span class="speech-tag">60–90 min</span>
+          <span class="speech-tag">Live exercise</span>
+          <span class="speech-tag">Q&amp;A buffer</span>
+        </div>
+      </div>
+
+      <div>
+        <p class="eyebrow" style="margin-bottom: 24px">Talk Structure</p>
+        <div class="structure">
+          <div class="structure-row">
+            <div class="structure-time">0–5 min</div>
+            <div class="structure-content">
+              <h4>The Hook</h4>
+              <p>Raised hands. Three pillars named in plain language. The whole room participating in the first sixty seconds.</p>
+            </div>
+          </div>
+          <div class="structure-row">
+            <div class="structure-time">5–12 min</div>
+            <div class="structure-content">
+              <h4>The Problem</h4>
+              <p>What the nervous system does with the things it cannot say. Pillar one, named.</p>
+            </div>
+          </div>
+          <div class="structure-row">
+            <div class="structure-time">12–30 min</div>
+            <div class="structure-content">
+              <h4>Hope's Story</h4>
+              <p>Land acknowledgment. Five acts — the wound, the body speaks, the mind cracks open, the collapse, the discovery.</p>
+            </div>
+          </div>
+          <div class="structure-row">
+            <div class="structure-time">32–50 min</div>
+            <div class="structure-content">
+              <h4>The Method</h4>
+              <p>All four workshops taught in summary — including a live breathing exercise the room does together.</p>
+            </div>
+          </div>
+          <div class="structure-row">
+            <div class="structure-time">50–60 min</div>
+            <div class="structure-content">
+              <h4>Witness</h4>
+              <p>Ten-year client tells her own story across all three pillars. Nothing rehearsed.</p>
+            </div>
+          </div>
+          <div class="structure-row">
+            <div class="structure-time">60–75 min</div>
+            <div class="structure-content">
+              <h4>Three Doors &amp; Benediction</h4>
+              <p>Hope Reset (free audio), workshop series, 1:1 coaching. Closes with: <em>"There's always hope."</em></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHO THIS IS FOR ============ -->
+<section class="audience-section">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Who This Is For</p>
+      <div class="ornament"></div>
+      <h2 class="h2">For the people<br/>performing okayness.</h2>
+    </div>
+    <div class="audience-grid">
+      <div class="audience-card">
+        <h4>Men carrying unprocessed pain</h4>
+        <p>Showing up as physical symptoms — chronic tension, sleep that won't come, rage with no obvious cause, burnout the weekend can't fix.</p>
+      </div>
+      <div class="audience-card">
+        <h4>First responders &amp; healthcare</h4>
+        <p>Trained to hold it together. Holding it for so long the body started keeping score. Grant-funded community rates available.</p>
+      </div>
+      <div class="audience-card">
+        <h4>Corporate &amp; tech leaders</h4>
+        <p>High-functioning, high-performing, quietly falling apart. A lunch-and-learn that doesn't waste an hour of anyone's time.</p>
+      </div>
+      <div class="audience-card">
+        <h4>Anyone in trades or construction</h4>
+        <p>Bodies that work hard, carrying what nobody asked about. This talk meets them where they are — no jargon, no fluff.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOPE ============ -->
+<section id="hope">
+  <div class="wrap">
+    <div class="bio-grid">
+      <div class="bio-portrait" aria-hidden="true">
+        <svg class="lotus-bg" viewBox="0 0 400 400" fill="none">
+          <g stroke="#b8962e" stroke-width="0.6">
+            <path d="M200 230 C 180 200, 180 170, 200 140 C 220 170, 220 200, 200 230 Z" />
+            <path d="M200 240 C 160 230, 130 200, 130 160 C 160 175, 185 200, 200 240 Z" />
+            <path d="M200 240 C 240 230, 270 200, 270 160 C 240 175, 215 200, 200 240 Z" />
+            <path d="M200 250 C 145 250, 100 220, 90 170 C 130 195, 165 225, 200 250 Z" />
+            <path d="M200 250 C 255 250, 300 220, 310 170 C 270 195, 235 225, 200 250 Z" />
+            <path d="M200 260 C 130 270, 70 250, 50 200 C 100 220, 150 245, 200 260 Z" />
+            <path d="M200 260 C 270 270, 330 250, 350 200 C 300 220, 250 245, 200 260 Z" />
+            <path d="M200 270 Q 195 320, 205 380" />
+          </g>
+        </svg>
+        <div class="bio-portrait-label">
+          <div class="name">Hope Kimple</div>
+          <div class="role">Founder · Offering Hope</div>
+        </div>
+      </div>
+      <div class="bio-content">
+        <p class="eyebrow">Meet Hope</p>
+        <div class="ornament" style="margin: 24px 0"></div>
+        <h2 class="h2">The work, the woman,<br/>the lineage.</h2>
+        <p>Hope is Lakota — Rosebud — and was raised in Comanche ways. She carries two nations in her body and two traditions of understanding the world. Every keynote opens with a formal land acknowledgment before her personal story is told.</p>
+        <p>For sixteen years she has sat with people in the place between the wound and the work. She is a somatic practitioner and an intuitive life coach. The clinical training came first. The ceremonial knowing was always there.</p>
+        <div class="bio-credentials">
+          <span class="cred">16+ Years Clinical</span>
+          <span class="cred">Somatic Practitioner</span>
+          <span class="cred">Intuitive Life Coach</span>
+          <span class="cred">Lakota · Comanche</span>
+        </div>
+        <div class="bio-quote">
+          "Ceremony is medicine. It is woven into every offering, not added as decoration."
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section class="testimonials-section" id="testimonials">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow on-dark">In Their Words</p>
+      <div class="ornament" style="background:rgba(184,150,46,0.6)"></div>
+      <h2 class="h2" style="color: var(--cream)">Ten years of witnessing.</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial">
+        <span class="quote-mark">"</span>
+        <p class="testimonial-quote">I had been to therapists for years. Hope was the first person who asked my body what it was carrying. That was the day something actually moved.</p>
+        <div class="testimonial-attr">
+          <div class="name">Marcus T.</div>
+          90-Day Container Client
+        </div>
+      </div>
+      <div class="testimonial">
+        <span class="quote-mark">"</span>
+        <p class="testimonial-quote">My team came in skeptical. They left changed. Hope met our guys exactly where they were — no fluff, no jargon. Half of them booked sessions before they walked out.</p>
+        <div class="testimonial-attr">
+          <div class="name">Captain R. Vasquez</div>
+          First Responder Engagement
+        </div>
+      </div>
+      <div class="testimonial">
+        <span class="quote-mark">"</span>
+        <p class="testimonial-quote">The first sixty seconds got every hand in the air. By the end I understood why my back had been talking to me for two years. I just needed someone to translate.</p>
+        <div class="testimonial-attr">
+          <div class="name">Diane M.</div>
+          Built To Break Keynote
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RESERVE / GHL FORM ============ -->
+<section class="form-section" id="reserve">
+  <div class="wrap">
+    <div class="section-head" style="margin-bottom: 24px">
+      <p class="eyebrow">Reserve Your Seat</p>
+      <div class="ornament"></div>
+      <h2 class="h2">Built To Break.<br/>August 8, 2026.</h2>
+    </div>
+
+    <div class="form-grid">
+      <div class="form-info">
+        <p style="font-size: 18px; line-height: 1.65;">Seats are limited and reserved in order received. Founding-rate pricing closes August 8 — first five 90-Day Container slots are still open at $1,200 ($150/session) before the official $1,597 rate begins.</p>
+        <p style="font-size: 18px; line-height: 1.65;">Tell us a little about you. Hope or someone on the team will follow up personally — usually within 48 hours.</p>
+
+        <div class="form-details">
+          <div class="form-detail">
+            <div class="form-detail-k">Date</div>
+            <div class="form-detail-v">Saturday, August 8, 2026<span class="sub">Doors at 6:30 PM · Talk 7:00–8:30 PM</span></div>
+          </div>
+          <div class="form-detail">
+            <div class="form-detail-k">Venue</div>
+            <div class="form-detail-v">Prodigy Fitness<span class="sub">Bay Area · address sent on confirmation</span></div>
+          </div>
+          <div class="form-detail">
+            <div class="form-detail-k">Investment</div>
+            <div class="form-detail-v">By donation<span class="sub">First responder &amp; community rates available</span></div>
+          </div>
+          <div class="form-detail">
+            <div class="form-detail-k">Format</div>
+            <div class="form-detail-v">60–90 min keynote<span class="sub">Live somatic exercise · Q&amp;A · book signing</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================================================================
+           GHL FORM
+           ----------------------------------------------------------------
+           To swap in the real GoHighLevel embed, replace the entire
+           <div class="form-card"> block below with the iframe snippet
+           from GHL (Sites → Forms → Integrate → "iFrame Embed Code").
+           The visible form here mirrors the standard GHL field set
+           (first_name, last_name, email, phone) plus two custom fields
+           you can map: interest, message.
+           ================================================================ -->
+      <div class="form-card" id="reserveForm" aria-label="Reserve your seat">
+        <div class="form-body">
+          <h3>Save my seat</h3>
+          <p class="form-sub">No payment required to reserve — we'll be in touch with details.</p>
+
+          <form id="ghlForm" novalidate>
+            <div class="field-row">
+              <div class="field">
+                <label for="first_name">First name</label>
+                <input id="first_name" name="first_name" type="text" autocomplete="given-name" required />
+                <div class="field-error">Please enter your first name.</div>
+              </div>
+              <div class="field">
+                <label for="last_name">Last name</label>
+                <input id="last_name" name="last_name" type="text" autocomplete="family-name" required />
+                <div class="field-error">Please enter your last name.</div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" required />
+              <div class="field-error">Please enter a valid email address.</div>
+            </div>
+
+            <div class="field">
+              <label for="phone">Phone <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--muted)">(optional — for text reminders)</span></label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" />
+            </div>
+
+            <div class="field">
+              <label for="interest">What brought you here?</label>
+              <select id="interest" name="interest" required>
+                <option value="">Select one…</option>
+                <option value="keynote-attendee">Attending the Aug 8 keynote</option>
+                <option value="speaking-engagement">Booking Hope for a speaking engagement</option>
+                <option value="workshop-series">Curious about the workshop series</option>
+                <option value="coaching">1:1 coaching / 90-Day Container</option>
+                <option value="first-responder">First responder / community access</option>
+                <option value="other">Something else</option>
+              </select>
+              <div class="field-error">Please pick one so we can route you correctly.</div>
+            </div>
+
+            <div class="field">
+              <label for="message">Anything you want Hope to know? <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--muted)">(optional)</span></label>
+              <textarea id="message" name="message" rows="3" placeholder="What is your body asking you to listen to?"></textarea>
+            </div>
+
+            <label class="checkbox-row">
+              <input type="checkbox" id="consent" name="consent" required />
+              <span>I agree to receive event reminders and occasional notes from Offering Hope. Unsubscribe any time.</span>
+            </label>
+
+            <button type="submit" class="form-submit" id="submitBtn">
+              <span class="submit-label">Reserve my seat</span>
+              <span class="arrow">→</span>
+            </button>
+
+            <p class="form-footnote">
+              By submitting you'll be added to the Offering Hope contact list.<br/>
+              <span class="aho">Aho — this is true, this is witnessed, this is honored.</span>
+            </p>
+          </form>
+        </div>
+
+        <div class="form-success" id="formSuccess" role="status" aria-live="polite">
+          <div class="check">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <path d="M6 14 L 12 20 L 22 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>Your seat is held.</h3>
+          <p>Check your inbox — a confirmation is on its way. Hope will be in touch personally before the talk.</p>
+          <p class="aho" style="font-family: var(--serif); font-style: italic; color: var(--gold-deep); margin-top: 24px; font-size: 17px;">Aho. There's always hope.</p>
+        </div>
+      </div>
+      <!-- =============== END GHL FORM =============== -->
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="assets/oh-logo.png" alt="Offering Hope" />
+        <p class="footer-tag">There's always hope.</p>
+        <p class="footer-text">Hope Kimple — Intuitive life coach, somatic practitioner, sixteen years in the work. Built on three pillars nobody teaches us.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Offerings</h4>
+        <a href="#talk">Built To Break Keynote</a>
+        <a href="#">Workshop Series</a>
+        <a href="#">90-Day Container</a>
+        <a href="#">VIP Half-Day Intensive</a>
+        <a href="#">Full-Year Mentorship</a>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <a href="https://instagram.com/offering_hope_life_coach" target="_blank" rel="noopener">@offering_hope_life_coach</a>
+        <a href="#reserve">Book a speaking engagement</a>
+        <a href="#reserve">First responder access</a>
+        <a href="#reserve">General inquiry</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Offering Hope · Hope Kimple. All rights reserved.</div>
+      <div class="aho">Aho.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ============================================================
+  //  FORM — wired to validate + post.
+  //  Drop-in for GHL: either (A) replace the form-card with the
+  //  GHL iframe, or (B) keep this UI and POST to your GHL inbound
+  //  webhook URL below. Standard GHL field names already match.
+  // ============================================================
+  const GHL_WEBHOOK_URL = ""; // ← paste your GHL inbound webhook URL here
+
+  const form = document.getElementById("ghlForm");
+  const card = document.getElementById("reserveForm");
+  const success = document.getElementById("formSuccess");
+  const submitBtn = document.getElementById("submitBtn");
+
+  function validate() {
+    let ok = true;
+    const required = ["first_name", "last_name", "email", "interest"];
+    required.forEach((id) => {
+      const el = document.getElementById(id);
+      const field = el.closest(".field");
+      if (!el.value.trim()) { field.classList.add("has-error"); el.classList.add("error"); ok = false; }
+      else { field.classList.remove("has-error"); el.classList.remove("error"); }
+    });
+    const email = document.getElementById("email");
+    if (email.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+      email.closest(".field").classList.add("has-error");
+      email.classList.add("error");
+      ok = false;
+    }
+    const consent = document.getElementById("consent");
+    if (!consent.checked) { ok = false; consent.focus(); }
+    return ok;
+  }
+
+  ["first_name", "last_name", "email", "interest"].forEach((id) => {
+    const el = document.getElementById(id);
+    el.addEventListener("input", () => {
+      el.closest(".field").classList.remove("has-error");
+      el.classList.remove("error");
+    });
+  });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!validate()) return;
+
+    submitBtn.disabled = true;
+    submitBtn.querySelector(".submit-label").textContent = "Reserving…";
+
+    const data = Object.fromEntries(new FormData(form).entries());
+
+    try {
+      if (GHL_WEBHOOK_URL) {
+        await fetch(GHL_WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+      } else {
+        // demo: simulate latency
+        await new Promise((r) => setTimeout(r, 600));
+        console.log("Form submission (demo, no GHL_WEBHOOK_URL set):", data);
+      }
+      card.classList.add("submitted");
+      success.classList.add("shown");
+      const y = card.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    } catch (err) {
+      console.error(err);
+      submitBtn.disabled = false;
+      submitBtn.querySelector(".submit-label").textContent = "Try again";
+    }
+  });
+</script>
+
+</body>
+</html>
