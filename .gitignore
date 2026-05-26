@@ -2,3 +2,8 @@
 *.bak
 __pycache__/
 *.pyc
+
+# Dev artifacts — keep locally, don't publish
+Hope Landing Page/uploads/
+Hope Landing Page/screenshots/
+Hope Landing Page/assets/*-raw.*
