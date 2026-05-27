@@ -4,6 +4,7 @@ __pycache__/
 *.pyc
 
 # Dev artifacts — keep locally, don't publish
+assets/*-raw.*
 Hope Landing Page/uploads/
 Hope Landing Page/screenshots/
 Hope Landing Page/assets/*-raw.*
