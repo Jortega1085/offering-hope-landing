@@ -863,7 +863,8 @@
 
           <div class="field">
             <label for="phone">Mobile <span class="opt">— for event reminder</span></label>
-            <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" />
+            <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="(555) 555-1234" />
+            <div class="field-error">Use a 10-digit US number or international format (+...).</div>
           </div>
 
           <div class="field">
@@ -928,6 +929,24 @@
   const shell = document.getElementById("regShell");
   const submitBtn = document.getElementById("submitBtn");
 
+  function formatPhoneE164(raw) {
+    if (!raw || !raw.trim()) return "";
+    const trimmed = raw.trim();
+    // Already E.164 (starts with +) — strip non-digits after the +, return.
+    if (trimmed.startsWith("+")) {
+      const digits = trimmed.slice(1).replace(/\D/g, "");
+      return digits ? "+" + digits : "";
+    }
+    // Strip everything except digits.
+    let digits = trimmed.replace(/\D/g, "");
+    // US-style: 11 digits starting with 1 → strip the 1, treat as US.
+    if (digits.length === 11 && digits.startsWith("1")) digits = digits.slice(1);
+    // 10-digit US number → prepend +1.
+    if (digits.length === 10) return "+1" + digits;
+    // Anything else, return null-ish so validate() catches it.
+    return null;
+  }
+
   function validate() {
     let ok = true;
     ["first_name", "last_name", "email"].forEach((id) => {
@@ -942,12 +961,26 @@
       email.classList.add("error");
       ok = false;
     }
+    // Phone is optional, but if provided must be a recognizable US/international number.
+    const phone = document.getElementById("phone");
+    if (phone.value && phone.value.trim()) {
+      if (formatPhoneE164(phone.value) === null) {
+        phone.closest(".field").classList.add("has-error");
+        phone.classList.add("error");
+        const err = phone.closest(".field").querySelector(".field-error");
+        if (err) err.textContent = "Use a 10-digit US number or international format (+...).";
+        ok = false;
+      } else {
+        phone.closest(".field").classList.remove("has-error");
+        phone.classList.remove("error");
+      }
+    }
     const consent = document.getElementById("consent");
     if (!consent.checked) { ok = false; consent.focus(); }
     return ok;
   }
 
-  ["first_name", "last_name", "email"].forEach((id) => {
+  ["first_name", "last_name", "email", "phone"].forEach((id) => {
     const el = document.getElementById(id);
     el.addEventListener("input", () => {
       el.closest(".field").classList.remove("has-error");
@@ -962,6 +995,11 @@
     submitBtn.querySelector(".submit-label").textContent = "Reserving…";
 
     const data = Object.fromEntries(new FormData(form).entries());
+    // Normalize phone to E.164 before sending so GHL accepts it.
+    if (data.phone) {
+      const e164 = formatPhoneE164(data.phone);
+      data.phone = e164 || "";
+    }
     try {
       if (GHL_WEBHOOK_URL) {
         await fetch(GHL_WEBHOOK_URL, {
