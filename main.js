@@ -102,8 +102,54 @@ function initContactForm() {
   });
 }
 
+var RESET_WEBHOOK_URL = ""; // TODO before launch: GHL webhook that emails the Hope Reset audio + adds to newsletter
+
+function initResetForm() {
+  var form = document.getElementById("resetForm");
+  var wrap = document.getElementById("resetWrap");
+  if (!form || !wrap) return;
+  var submit = document.getElementById("resetSubmit");
+
+  function validate() {
+    var ok = true;
+    var name = document.getElementById("reset_name");
+    var email = document.getElementById("reset_email");
+    [name, email].forEach(function (el) {
+      var f = el.closest(".field");
+      if (!el.value.trim()) { f.classList.add("has-error"); ok = false; }
+      else { f.classList.remove("has-error"); }
+    });
+    if (email.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+      email.closest(".field").classList.add("has-error"); ok = false;
+    }
+    return ok;
+  }
+
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    if (!validate()) return;
+    submit.disabled = true;
+    submit.textContent = "Sending…";
+    var data = Object.fromEntries(new FormData(form).entries());
+    try {
+      if (RESET_WEBHOOK_URL) {
+        await fetch(RESET_WEBHOOK_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+      } else {
+        await new Promise(function (r) { setTimeout(r, 500); }); // demo when URL not yet set
+        console.log("Reset submit (no webhook set):", data);
+      }
+      wrap.classList.add("submitted");
+    } catch (err) {
+      console.error(err);
+      submit.disabled = false;
+      submit.textContent = "Try again";
+    }
+  });
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   initNav();
   renderEvents();
   initContactForm();
+  initResetForm();
 });
