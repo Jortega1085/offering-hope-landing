@@ -25,7 +25,11 @@ body {
 body::before {
   content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
   background-image: url("assets/lotus-bg.png"); background-repeat: no-repeat;
-  background-position: center center; background-size: min(1400px, 130vw) auto; opacity: 0.27;
+  background-position: center 40px; background-size: min(1250px, 104vw) auto; opacity: 0.18;
+}
+/* Wider screens: the lotus scales up and its mass sits low — pull it up and in a touch. */
+@media (min-width: 760px) {
+  body::before { background-size: min(1000px, 78vw) auto; background-position: center -40px; }
 }
 h1, h2, h3, h4 { font-family: var(--serif); font-weight: 500; line-height: 1.08; color: var(--ink); }
 a { color: inherit; }
