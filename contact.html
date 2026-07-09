@@ -30,7 +30,60 @@
     </nav>
   </div>
 </header>
-<main class="page"></main>
+<main class="page">
+<section class="hero">
+  <div class="kicker">Contact</div>
+  <div class="rule"></div>
+  <h1>Let's <em>talk</em>.</h1>
+  <p class="lede">Whether it's a seat, a spot, or a stage — start here.</p>
+</section>
+
+<section class="block" style="margin-top:24px;">
+  <div class="form-wrap" id="contactWrap" style="max-width:560px;margin:0 auto;">
+    <form id="contactForm" novalidate>
+      <div class="field">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" autocomplete="name" required />
+        <div class="field-error">Required.</div>
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" required />
+        <div class="field-error">Please enter a valid email.</div>
+      </div>
+      <div class="field">
+        <label for="reason">What are you reaching out about?</label>
+        <select id="reason" name="reason" required>
+          <option value="">Select one…</option>
+          <option value="Workshop">Workshop</option>
+          <option value="Coaching">Coaching</option>
+          <option value="Speaking">Speaking</option>
+          <option value="Something else">Something else</option>
+        </select>
+        <div class="field-error">Required.</div>
+      </div>
+      <div class="field">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" required></textarea>
+        <div class="field-error">Required.</div>
+      </div>
+      <div class="cta-row" style="margin-top:8px;">
+        <button type="submit" class="btn" id="contactSubmit">Send message</button>
+      </div>
+    </form>
+    <div class="form-success">
+      <div class="rule"></div>
+      <h3 style="font-size:28px;">Thank you — it's on its way.</h3>
+      <p class="prose"><em>I'll be in touch soon.</em></p>
+    </div>
+  </div>
+  <div class="contact-meta">
+    <a href="mailto:hope@offeringhope.co">hope@offeringhope.co</a> · <a href="tel:+15102096744">510-209-6744</a><br />
+    Hayward, California<br />
+    <a href="https://instagram.com/offering_hope_coach">@offering_hope_coach</a>
+  </div>
+</section>
+</main>
 <footer class="foot">
   <div class="foot-brand">Offering Hope · Hands of Hope Wellness Center LLC · Hayward, CA</div>
   <div class="foot-nav">

@@ -53,7 +53,57 @@ function renderEvents() {
   }
 }
 
+var CONTACT_WEBHOOK_URL = ""; // TODO before launch: GHL inbound-webhook trigger URL (Hope's sub-account)
+
+function initContactForm() {
+  var form = document.getElementById("contactForm");
+  var wrap = document.getElementById("contactWrap");
+  if (!form || !wrap) return;
+  var submit = document.getElementById("contactSubmit");
+
+  function validate() {
+    var ok = true;
+    ["name", "email", "reason", "message"].forEach(function (id) {
+      var el = document.getElementById(id);
+      var f = el.closest(".field");
+      if (!el.value.trim()) { f.classList.add("has-error"); ok = false; }
+      else { f.classList.remove("has-error"); }
+    });
+    var email = document.getElementById("email");
+    if (email.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+      email.closest(".field").classList.add("has-error");
+      ok = false;
+    }
+    return ok;
+  }
+
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    if (!validate()) return;
+    submit.disabled = true;
+    submit.textContent = "Sending…";
+    var data = Object.fromEntries(new FormData(form).entries());
+    data.subject = "[Website] " + (data.reason || "Contact") + " — " + (data.name || "");
+    try {
+      if (CONTACT_WEBHOOK_URL) {
+        await fetch(CONTACT_WEBHOOK_URL, {
+          method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data)
+        });
+      } else {
+        await new Promise(function (r) { setTimeout(r, 500); }); // demo when URL not yet set
+        console.log("Contact submit (no webhook set):", data);
+      }
+      wrap.classList.add("submitted");
+    } catch (err) {
+      console.error(err);
+      submit.disabled = false;
+      submit.textContent = "Try again";
+    }
+  });
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   initNav();
   renderEvents();
+  initContactForm();
 });
