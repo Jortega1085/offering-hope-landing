@@ -1,0 +1,6 @@
+# Cloudflare Pages headers (ignored by GitHub Pages). Applied site-wide.
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
