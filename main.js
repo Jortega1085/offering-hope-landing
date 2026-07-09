@@ -53,6 +53,60 @@ function renderEvents() {
   }
 }
 
+// ---- Lead-source attribution (first-touch) ----------------------------------
+// Classifies document.referrer, persists the FIRST source seen in localStorage,
+// and attaches it to every form submission so GHL can tag where a lead came from.
+// Chat assistants that pass a referrer are caught here. Google AI Overviews
+// clicks arrive as plain google.com traffic and can't be isolated as "AI".
+var AI_REFERRERS = [
+  { host: "chatgpt.com", label: "ChatGPT" },
+  { host: "chat.openai.com", label: "ChatGPT" },
+  { host: "openai.com", label: "ChatGPT" },
+  { host: "perplexity.ai", label: "Perplexity" },
+  { host: "gemini.google.com", label: "Gemini" },
+  { host: "bard.google.com", label: "Gemini" },
+  { host: "claude.ai", label: "Claude" },
+  { host: "copilot.microsoft.com", label: "Microsoft Copilot" },
+  { host: "you.com", label: "You.com" },
+  { host: "poe.com", label: "Poe" }
+];
+
+function classifyReferrer(ref) {
+  if (!ref) return "Direct / app";
+  var host;
+  try { host = new URL(ref).hostname.replace(/^www\./, ""); } catch (e) { return "Unknown"; }
+  for (var i = 0; i < AI_REFERRERS.length; i++) {
+    var h = AI_REFERRERS[i].host;
+    if (host === h || host.endsWith("." + h)) return "AI — " + AI_REFERRERS[i].label;
+  }
+  if (/(^|\.)google\.|(^|\.)bing\.com|(^|\.)duckduckgo\.com|search\.yahoo/.test(host)) return "Search — " + host;
+  if (/(^|\.)(instagram|facebook|linkedin|youtube|tiktok)\.|(^|\.)t\.co$|(^|\.)x\.com$/.test(host)) return "Social — " + host;
+  return "Referral — " + host;
+}
+
+function captureSource() {
+  var KEY = "oh_lead_source";
+  var stored = null;
+  try { stored = JSON.parse(localStorage.getItem(KEY) || "null"); } catch (e) {}
+  if (!stored) {
+    stored = {
+      lead_source: classifyReferrer(document.referrer),
+      referrer: document.referrer || "(none)",
+      landing_page: location.pathname + location.search
+    };
+    try { localStorage.setItem(KEY, JSON.stringify(stored)); } catch (e) {}
+  }
+  return stored;
+}
+
+function attachSource(data) {
+  var s = captureSource();
+  data.lead_source = s.lead_source;
+  data.referrer = s.referrer;
+  data.landing_page = s.landing_page;
+  return data;
+}
+
 var CONTACT_WEBHOOK_URL = ""; // TODO before launch: GHL inbound-webhook trigger URL (Hope's sub-account)
 
 function initContactForm() {
@@ -84,6 +138,7 @@ function initContactForm() {
     submit.textContent = "Sending…";
     var data = Object.fromEntries(new FormData(form).entries());
     data.subject = "[Website] " + (data.reason || "Contact") + " — " + (data.name || "");
+    attachSource(data);
     try {
       if (CONTACT_WEBHOOK_URL) {
         await fetch(CONTACT_WEBHOOK_URL, {
@@ -130,7 +185,7 @@ function initResetForm() {
     if (!validate()) return;
     submit.disabled = true;
     submit.textContent = "Sending…";
-    var data = Object.fromEntries(new FormData(form).entries());
+    var data = attachSource(Object.fromEntries(new FormData(form).entries()));
     try {
       if (RESET_WEBHOOK_URL) {
         await fetch(RESET_WEBHOOK_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
@@ -149,6 +204,7 @@ function initResetForm() {
 
 document.addEventListener("DOMContentLoaded", function () {
   initNav();
+  captureSource(); // record first-touch source on landing, even before any form submit
   renderEvents();
   initContactForm();
   initResetForm();
