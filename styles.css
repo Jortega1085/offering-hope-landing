@@ -150,3 +150,30 @@ a.card:hover { background: var(--cream); }
 .stub { text-align: center; padding: 60px 0; }
 .stub h1 { font-size: clamp(40px, 7vw, 64px); margin-bottom: 16px; }
 .stub p { font-family: var(--serif); font-size: 20px; color: var(--ink-soft); margin-bottom: 28px; }
+
+/* ---------- Shared helpers used by Phase 2 pages ---------- */
+.outcomes { display:grid; grid-template-columns:1fr 1fr; gap:18px 32px; }
+.outcome { display:flex; gap:14px; align-items:flex-start; }
+.outcome .dot { flex:none; width:8px; height:8px; background:var(--gold); border-radius:50%; margin-top:10px; transform:rotate(45deg); }
+.outcome .body { font-family:var(--serif); font-size:18px; line-height:1.5; color:var(--ink-soft); }
+@media (max-width:600px){ .outcomes{ grid-template-columns:1fr; } }
+.video-slot { aspect-ratio:16/9; width:100%; border:1px dashed var(--line-gold); border-radius:3px; display:flex; align-items:center; justify-content:center; color:var(--muted); font-family:var(--sans); font-size:13px; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:28px; background:rgba(244,238,225,0.4); }
+.aho-card { display:flex; align-items:center; justify-content:space-between; gap:16px; border:1px solid var(--line-gold); border-radius:3px; padding:20px 24px; background:rgba(244,238,225,0.5); }
+.aho-card strong { font-family:var(--serif); font-size:20px; font-weight:500; }
+
+/* ---------- Aho — its own world (forest green / gold / parchment) ---------- */
+.aho-page { --aho-green:#20392c; --aho-green-deep:#16281f; --aho-parch:#efe7d2; }
+.aho-page { background:var(--aho-parch); position:relative; z-index:1; }
+body.aho::before { opacity:0.08; } /* dial the sitewide lotus back on Aho */
+.aho-hero { background:var(--aho-green); color:var(--aho-parch); text-align:center; padding:60px 32px; border-radius:3px; }
+.aho-hero .kicker { color:var(--gold-soft); }
+.aho-hero h1 { color:var(--aho-parch); font-size:clamp(48px,8vw,84px); margin:14px 0; }
+.aho-hero .lede { font-family:var(--serif); font-style:italic; font-size:clamp(18px,2.3vw,22px); color:var(--gold-pale,#e7d9b0); max-width:620px; margin:0 auto 18px; line-height:1.5; }
+.aho-hero .prose p { color:var(--aho-parch); }
+.aho-page .sec-label { color:var(--aho-green); border-color:rgba(32,57,44,0.28); }
+.aho-page h4, .aho-page h3 { color:var(--aho-green-deep); }
+.aho-product { border:1px solid rgba(32,57,44,0.25); border-radius:3px; padding:24px; background:rgba(255,255,255,0.4); }
+.aho-product h4 { font-family:var(--serif); font-size:24px; margin-bottom:8px; }
+.aho-product p { font-family:var(--serif); font-size:17px; color:var(--ink-soft); line-height:1.6; }
+.aho-where a { color:var(--aho-green); text-decoration:underline; text-underline-offset:3px; }
+.aho-disclaimer { font-family:var(--sans); font-size:11px; line-height:1.6; color:var(--muted); border-top:1px solid rgba(32,57,44,0.25); margin-top:40px; padding-top:20px; }
