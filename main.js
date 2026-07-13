@@ -107,97 +107,140 @@ function attachSource(data) {
   return data;
 }
 
-var CONTACT_WEBHOOK_URL = ""; // TODO before launch: GHL inbound-webhook trigger URL (Hope's sub-account)
+// TODO(launch-blocker): paste GHL webhook URL from Hope's account before production
+var CONTACT_WEBHOOK_URL = "";
 
 function initContactForm() {
   var form = document.getElementById("contactForm");
   var wrap = document.getElementById("contactWrap");
   if (!form || !wrap) return;
   var submit = document.getElementById("contactSubmit");
+  var submitLabel = submit ? submit.textContent : "Send message";
+  var formError = document.getElementById("contactError");
+
+  function showSendError() {
+    if (formError) {
+      formError.textContent =
+        "Something went wrong sending this. Please email hope@offeringhope.co directly.";
+    }
+    if (submit) { submit.disabled = false; submit.textContent = submitLabel; }
+  }
 
   function validate() {
     var ok = true;
+    var firstInvalid = null;
     ["name", "email", "reason", "message"].forEach(function (id) {
       var el = document.getElementById(id);
       var f = el.closest(".field");
-      if (!el.value.trim()) { f.classList.add("has-error"); ok = false; }
-      else { f.classList.remove("has-error"); }
+      if (!el.value.trim()) {
+        f.classList.add("has-error");
+        el.setAttribute("aria-invalid", "true");
+        if (!firstInvalid) firstInvalid = el;
+        ok = false;
+      } else {
+        f.classList.remove("has-error");
+        el.removeAttribute("aria-invalid");
+      }
     });
     var email = document.getElementById("email");
     if (email.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
       email.closest(".field").classList.add("has-error");
+      email.setAttribute("aria-invalid", "true");
+      if (!firstInvalid) firstInvalid = email;
       ok = false;
     }
+    if (firstInvalid) firstInvalid.focus();
     return ok;
   }
 
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
+    if (formError) formError.textContent = "";
     if (!validate()) return;
     submit.disabled = true;
     submit.textContent = "Sending…";
     var data = Object.fromEntries(new FormData(form).entries());
     data.subject = "[Website] " + (data.reason || "Contact") + " — " + (data.name || "");
     attachSource(data);
+    // No webhook configured yet — never fake success; surface an error instead.
+    if (!CONTACT_WEBHOOK_URL) { showSendError(); return; }
     try {
-      if (CONTACT_WEBHOOK_URL) {
-        await fetch(CONTACT_WEBHOOK_URL, {
-          method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data)
-        });
-      } else {
-        await new Promise(function (r) { setTimeout(r, 500); }); // demo when URL not yet set
-        console.log("Contact submit (no webhook set):", data);
-      }
-      wrap.classList.add("submitted");
+      var res = await fetch(CONTACT_WEBHOOK_URL, {
+        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data)
+      });
+      if (!res || !res.ok) { showSendError(); return; }
+      wrap.classList.add("submitted"); // success only after a resolved, ok response
     } catch (err) {
       console.error(err);
-      submit.disabled = false;
-      submit.textContent = "Try again";
+      showSendError();
     }
   });
 }
 
-var RESET_WEBHOOK_URL = ""; // TODO before launch: GHL webhook that emails the Hope Reset audio + adds to newsletter
+// TODO(launch-blocker): paste GHL webhook URL from Hope's account before production
+var RESET_WEBHOOK_URL = "";
 
 function initResetForm() {
   var form = document.getElementById("resetForm");
   var wrap = document.getElementById("resetWrap");
   if (!form || !wrap) return;
   var submit = document.getElementById("resetSubmit");
+  var submitLabel = submit ? submit.textContent : "Send me the reset";
+  var formError = document.getElementById("resetError");
+
+  function showSendError() {
+    if (formError) {
+      formError.textContent =
+        "Something went wrong sending this. Please email hope@offeringhope.co directly.";
+    }
+    if (submit) { submit.disabled = false; submit.textContent = submitLabel; }
+  }
 
   function validate() {
     var ok = true;
+    var firstInvalid = null;
     var name = document.getElementById("reset_name");
     var email = document.getElementById("reset_email");
     [name, email].forEach(function (el) {
       var f = el.closest(".field");
-      if (!el.value.trim()) { f.classList.add("has-error"); ok = false; }
-      else { f.classList.remove("has-error"); }
+      if (!el.value.trim()) {
+        f.classList.add("has-error");
+        el.setAttribute("aria-invalid", "true");
+        if (!firstInvalid) firstInvalid = el;
+        ok = false;
+      } else {
+        f.classList.remove("has-error");
+        el.removeAttribute("aria-invalid");
+      }
     });
     if (email.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
-      email.closest(".field").classList.add("has-error"); ok = false;
+      email.closest(".field").classList.add("has-error");
+      email.setAttribute("aria-invalid", "true");
+      if (!firstInvalid) firstInvalid = email;
+      ok = false;
     }
+    if (firstInvalid) firstInvalid.focus();
     return ok;
   }
 
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
+    if (formError) formError.textContent = "";
     if (!validate()) return;
     submit.disabled = true;
     submit.textContent = "Sending…";
     var data = attachSource(Object.fromEntries(new FormData(form).entries()));
+    // No webhook configured yet — never fake success; surface an error instead.
+    if (!RESET_WEBHOOK_URL) { showSendError(); return; }
     try {
-      if (RESET_WEBHOOK_URL) {
-        await fetch(RESET_WEBHOOK_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
-      } else {
-        await new Promise(function (r) { setTimeout(r, 500); }); // demo when URL not yet set
-        console.log("Reset submit (no webhook set):", data);
-      }
-      wrap.classList.add("submitted");
+      var res = await fetch(RESET_WEBHOOK_URL, {
+        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data)
+      });
+      if (!res || !res.ok) { showSendError(); return; }
+      wrap.classList.add("submitted"); // success only after a resolved, ok response
     } catch (err) {
       console.error(err);
-      submit.disabled = false;
-      submit.textContent = "Try again";
+      showSendError();
     }
   });
 }

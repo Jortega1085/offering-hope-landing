@@ -15,9 +15,10 @@
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <header class="masthead">
   <div class="masthead-inner">
-    <img src="assets/oh-logo.png" alt="Offering Hope" class="logo" />
+    <img src="assets/oh-logo.png" alt="Offering Hope" class="logo" width="56" height="56" />
     <a href="index.html" class="masthead-brand">Offering Hope</a>
     <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">☰</button>
     <nav class="site-nav" id="site-nav">
@@ -31,7 +32,7 @@
     </nav>
   </div>
 </header>
-<main class="page">
+<main class="page" id="main">
   <section class="hero">
     <div class="kicker">Free</div>
     <div class="rule"></div>
@@ -45,18 +46,19 @@
         <div class="field">
           <label for="reset_name">First name</label>
           <input id="reset_name" name="first_name" type="text" autocomplete="given-name" required />
-          <div class="field-error">Required.</div>
+          <div class="field-error" role="alert">Required.</div>
         </div>
         <div class="field">
           <label for="reset_email">Email</label>
-          <input id="reset_email" name="email" type="email" autocomplete="email" required />
-          <div class="field-error">Please enter a valid email.</div>
+          <input id="reset_email" name="email" type="email" autocomplete="email" spellcheck="false" required />
+          <div class="field-error" role="alert">Please enter a valid email.</div>
         </div>
         <div class="cta-row" style="margin-top:8px;">
           <button type="submit" class="btn" id="resetSubmit">Send me the reset</button>
         </div>
+        <p class="form-error-msg" id="resetError" aria-live="polite"></p>
       </form>
-      <div class="form-success">
+      <div class="form-success" aria-live="polite">
         <div class="rule"></div>
         <h3 style="font-size:26px;">Check your inbox.</h3>
         <p class="prose"><em>The Hope Reset is on its way.</em></p>
