@@ -20,10 +20,14 @@ function pacificTodayISO() {
 
 function eventRowHTML(ev) {
   var when = ev.dateISO ? ev.meta : (ev.cycleWindow + " · " + ev.meta);
+  // Free / walk-in events have no regUrl — render a plain note, not a dead link.
+  var cta = ev.regUrl
+    ? '<a class="btn ev-cta" href="' + ev.regUrl + '">' + ev.buttonLabel + '</a>'
+    : '<span class="ev-cta ev-note-inline">' + (ev.buttonLabel || "Free to attend") + '</span>';
   return '<div class="event-row">' +
     '<span class="ev-name">' + ev.name + '</span>' +
     '<span class="ev-meta">' + when + '</span>' +
-    '<a class="btn ev-cta" href="' + ev.regUrl + '">' + ev.buttonLabel + '</a>' +
+    cta +
     '</div>';
 }
 
@@ -45,9 +49,9 @@ function renderEvents() {
       nextEl.innerHTML = pick ? eventRowHTML(pick) : "";
     }
   } catch (e) {
-    var fallback = '<div class="event-row"><span class="ev-name">Break the Spell</span>' +
-      '<span class="ev-meta">Saturday, August 8 · 11 AM–1 PM · Prodigy Fitness, Pleasanton</span>' +
-      '<a class="btn ev-cta" href="https://form.jotform.com/261404619331047">Save my seat</a></div>';
+    var fallback = '<div class="event-row"><span class="ev-name">Built To Break</span>' +
+      '<span class="ev-meta">Saturday, August 8 · 11 AM–12 PM · Prodigy Fitness, Pleasanton</span>' +
+      '<span class="ev-cta ev-note-inline">Free to attend</span></div>';
     if (listEl) listEl.innerHTML = fallback;
     if (nextEl) nextEl.innerHTML = fallback;
   }

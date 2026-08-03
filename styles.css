@@ -112,6 +112,7 @@ a.card:hover { background: var(--cream); }
 .event-row .ev-name { font-family: var(--serif); font-size: 20px; font-weight: 500; }
 .event-row .ev-meta { font-family: var(--sans); font-size: 13px; color: var(--ink-soft); flex: 1 1 240px; }
 .event-row .ev-cta { margin-left: auto; }
+.event-row .ev-note-inline { font-family: var(--sans); font-size: 13px; font-weight: 500; letter-spacing: .04em; text-transform: uppercase; color: var(--gold); }
 .events-note { font-family: var(--serif); font-style: italic; font-size: 16px; color: var(--ink-soft); margin-top: 14px; }
 
 /* Pricing cards */
