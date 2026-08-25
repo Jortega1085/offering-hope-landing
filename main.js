@@ -286,7 +286,7 @@ function initResetForm() {
     submit.textContent = "Sending…";
     var data = attachSource(Object.fromEntries(new FormData(form).entries()));
     data.form_type = "free-reset";
-    data.subject = "[Website] Free Reset request — " + (data.reset_name || "");
+    data.subject = "[Website] Free Reset request — " + (data.first_name || "");
     var result = await postLead(data);
     if (result === "sent") {
       wrap.classList.add("submitted"); // success only after a resolved, ok response
