@@ -111,8 +111,62 @@ function attachSource(data) {
   return data;
 }
 
-// TODO(launch-blocker): paste GHL webhook URL from Hope's account before production
-var CONTACT_WEBHOOK_URL = "";
+// -- GHL lead wiring -------------------------------------------------------
+// One inbound webhook feeds every form on the site. Every payload carries a
+// form_type field ("contact" or "free-reset") so a single GHL workflow can
+// branch on which form it came from.
+//
+// To wire it up: GHL > Automation > Workflows > Create Workflow > add an
+// "Inbound Webhook" trigger, copy the URL it generates, paste it below, then
+// publish the workflow. One paste covers both forms.
+//
+// Until it is set, the forms never fake success. They fall back to a
+// pre-filled email so a visitor's message still reaches Hope.
+var GHL_WEBHOOK_URL = "";
+var LEAD_FALLBACK_EMAIL = "hope@offeringhope.co";
+
+// "sent" when GHL accepted the payload, "fallback" when no webhook is
+// configured yet, "error" when a configured webhook failed.
+async function postLead(data) {
+  if (!GHL_WEBHOOK_URL) return "fallback";
+  try {
+    var res = await fetch(GHL_WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+    return res && res.ok ? "sent" : "error";
+  } catch (err) {
+    console.error(err);
+    return "error";
+  }
+}
+
+// Carries the same fields the webhook would have taken, so nothing the
+// visitor typed is lost while the webhook is unwired.
+function fallbackMailto(data, subject) {
+  var body = Object.keys(data)
+    .filter(function (k) { return data[k]; })
+    .map(function (k) { return k + ": " + data[k]; })
+    .join("\n");
+  return "mailto:" + LEAD_FALLBACK_EMAIL +
+    "?subject=" + encodeURIComponent(subject) +
+    "&body=" + encodeURIComponent(body);
+}
+
+// Replaces the error line with a working one-click handoff. Built with DOM
+// calls rather than innerHTML so visitor input is never parsed as markup.
+function renderFallback(el, href) {
+  if (!el) return;
+  el.textContent = "This form is not connected to Hope's CRM yet. ";
+  var a = document.createElement("a");
+  a.href = href;
+  a.textContent = "Send it as an email instead";
+  el.appendChild(a);
+  el.appendChild(document.createTextNode(
+    ". Everything you typed is already filled in."
+  ));
+}
 
 function initContactForm() {
   var form = document.getElementById("contactForm");
@@ -165,24 +219,21 @@ function initContactForm() {
     submit.textContent = "Sending…";
     var data = Object.fromEntries(new FormData(form).entries());
     data.subject = "[Website] " + (data.reason || "Contact") + " — " + (data.name || "");
+    data.form_type = "contact";
     attachSource(data);
-    // No webhook configured yet — never fake success; surface an error instead.
-    if (!CONTACT_WEBHOOK_URL) { showSendError(); return; }
-    try {
-      var res = await fetch(CONTACT_WEBHOOK_URL, {
-        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data)
-      });
-      if (!res || !res.ok) { showSendError(); return; }
+    var result = await postLead(data);
+    if (result === "sent") {
       wrap.classList.add("submitted"); // success only after a resolved, ok response
-    } catch (err) {
-      console.error(err);
+    } else if (result === "fallback") {
+      // No webhook yet. Hand the visitor a pre-filled email rather than a
+      // dead end, and never mark this as submitted.
+      renderFallback(formError, fallbackMailto(data, data.subject));
+      if (submit) { submit.disabled = false; submit.textContent = submitLabel; }
+    } else {
       showSendError();
     }
   });
 }
-
-// TODO(launch-blocker): paste GHL webhook URL from Hope's account before production
-var RESET_WEBHOOK_URL = "";
 
 function initResetForm() {
   var form = document.getElementById("resetForm");
@@ -234,16 +285,15 @@ function initResetForm() {
     submit.disabled = true;
     submit.textContent = "Sending…";
     var data = attachSource(Object.fromEntries(new FormData(form).entries()));
-    // No webhook configured yet — never fake success; surface an error instead.
-    if (!RESET_WEBHOOK_URL) { showSendError(); return; }
-    try {
-      var res = await fetch(RESET_WEBHOOK_URL, {
-        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data)
-      });
-      if (!res || !res.ok) { showSendError(); return; }
+    data.form_type = "free-reset";
+    data.subject = "[Website] Free Reset request — " + (data.reset_name || "");
+    var result = await postLead(data);
+    if (result === "sent") {
       wrap.classList.add("submitted"); // success only after a resolved, ok response
-    } catch (err) {
-      console.error(err);
+    } else if (result === "fallback") {
+      renderFallback(formError, fallbackMailto(data, data.subject));
+      if (submit) { submit.disabled = false; submit.textContent = submitLabel; }
+    } else {
       showSendError();
     }
   });
