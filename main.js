@@ -49,9 +49,9 @@ function renderEvents() {
       nextEl.innerHTML = pick ? eventRowHTML(pick) : "";
     }
   } catch (e) {
-    var fallback = '<div class="event-row"><span class="ev-name">Built To Break</span>' +
-      '<span class="ev-meta">Saturday, August 8 · 11 AM–12 PM · Prodigy Fitness, Pleasanton</span>' +
-      '<span class="ev-cta ev-note-inline">Free to attend</span></div>';
+    var fallback = '<div class="event-row"><span class="ev-name">The Rebuild</span>' +
+      '<span class="ev-meta">Two hours · $30 · the paid next step after the Built To Break keynote</span>' +
+      '<span class="ev-cta ev-note-inline">Date coming soon</span></div>';
     if (listEl) listEl.innerHTML = fallback;
     if (nextEl) nextEl.innerHTML = fallback;
   }

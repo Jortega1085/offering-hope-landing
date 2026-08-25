@@ -2,39 +2,21 @@
 // Dated event: set dateISO "YYYY-MM-DD" (Pacific) + regUrl. Cycle event: set cycleWindow, omit dateISO.
 window.OH_EVENTS = [
   {
-    // Free keynote — no regUrl on purpose, so the row renders "Free to attend"
-    // instead of a registration button. Add regUrl back if Hope wants RSVP.
-    name: "Built To Break",
-    dateISO: "2026-08-08",
-    meta: "Saturday, August 8 · 11 AM–12 PM · Prodigy Fitness · 6689 Owens Dr., Suite 300, Pleasanton, CA 94588",
-    buttonLabel: "Free to attend"
-  },
-  {
-    name: "Reset & Realign",
-    cycleWindow: "Next cycle begins this fall (Workshop 1)",
-    meta: "Included with the Full Series pass",
-    buttonLabel: "Get the Full Series pass",
-    regUrl: "https://form.jotform.com/261404619331047"
-  },
-  {
-    name: "Break the Spell",
-    cycleWindow: "This fall cycle",
-    meta: "Included with the Full Series pass",
-    buttonLabel: "Get the Full Series pass",
-    regUrl: "https://form.jotform.com/261404619331047"
-  },
-  {
-    name: "Fear vs. Intuition",
-    cycleWindow: "This fall cycle",
-    meta: "Included with the Full Series pass",
-    buttonLabel: "Get the Full Series pass",
-    regUrl: "https://form.jotform.com/261404619331047"
-  },
-  {
-    name: "Boundaries & Becoming",
-    cycleWindow: "This fall cycle",
-    meta: "Included with the Full Series pass",
-    buttonLabel: "Get the Full Series pass",
-    regUrl: "https://form.jotform.com/261404619331047"
+    // The paid next step after the free Built To Break keynote.
+    // No regUrl yet on purpose: until the $30 checkout exists, this row renders
+    // "Date coming soon" as plain text instead of a button that goes nowhere.
+    // When the date is set: add dateISO "YYYY-MM-DD", drop cycleWindow, and set
+    // regUrl to the GHL payment link + buttonLabel: "Save my seat — $30".
+    name: "The Rebuild",
+    cycleWindow: "Two hours · $30",
+    meta: "The paid next step after the free Built To Break keynote",
+    buttonLabel: "Date coming soon"
   }
+  // Next Built To Break keynote — uncomment and fill in when a date is booked:
+  // ,{
+  //   name: "Built To Break",
+  //   dateISO: "2026-MM-DD",
+  //   meta: "Day, Month D · TIME · Venue · Address",
+  //   buttonLabel: "Free to attend"
+  // }
 ];
