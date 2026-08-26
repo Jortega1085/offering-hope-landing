@@ -122,7 +122,7 @@ function attachSource(data) {
 //
 // Until it is set, the forms never fake success. They fall back to a
 // pre-filled email so a visitor's message still reaches Hope.
-var GHL_WEBHOOK_URL = "";
+var GHL_WEBHOOK_URL = "https://services.leadconnectorhq.com/hooks/21LM8fQd0yonyBxXNzxY/webhook-trigger/c4b156fd-ded1-4a8d-af07-496944082286";
 var LEAD_FALLBACK_EMAIL = "hope@offeringhope.co";
 
 // "sent" when GHL accepted the payload, "fallback" when no webhook is
