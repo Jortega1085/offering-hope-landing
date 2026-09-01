@@ -125,6 +125,20 @@ function attachSource(data) {
 var GHL_WEBHOOK_URL = "https://services.leadconnectorhq.com/hooks/21LM8fQd0yonyBxXNzxY/webhook-trigger/c4b156fd-ded1-4a8d-af07-496944082286";
 var LEAD_FALLBACK_EMAIL = "hope@offeringhope.co";
 
+// -- Long Live Hope checkout ------------------------------------------------
+// TODO(launch-blocker): paste the GoHighLevel payment link for the product
+// "Long Live Hope — Founding Member" (product ID 6a91c03cbfd47b2be58a4dd7)
+// between the quotes below. That single line is the whole wiring job.
+//
+// Deliberately NOT the direct Square link (square.link/u/kWF3Vx8O). Payments
+// run through the CRM so every buyer lands in Hope's contact list.
+//
+// While this is empty, long-live-hope.html keeps the unavailable state that
+// ships in its HTML: a button that reads as dead, plus a notice and two real
+// ways to reach Hope. Same rule as the forms above — never show a live-looking
+// path that goes nowhere.
+var LLH_CHECKOUT_URL = "";
+
 // "sent" when GHL accepted the payload, "fallback" when no webhook is
 // configured yet, "error" when a configured webhook failed.
 async function postLead(data) {
@@ -299,10 +313,39 @@ function initResetForm() {
   });
 }
 
+// Upgrades the Long Live Hope checkout from its shipped unavailable state to a
+// live button, but only when LLH_CHECKOUT_URL actually holds a URL. The failure
+// path is the default, so an empty constant, a JS error, or JS switched off all
+// land on the same honest "not open yet" state rather than a dead button.
+function initLongLiveHopeCheckout() {
+  var btn = document.getElementById("llhCheckoutBtn");
+  if (!btn) return;
+  var note = document.getElementById("llhCheckoutNote");
+
+  if (!LLH_CHECKOUT_URL) {
+    // Not wired. Leave the unavailable styling alone and make the button do
+    // something useful on click: send the visitor to the fallback it points at.
+    btn.addEventListener("click", function () {
+      var fallback = note && note.querySelector("a");
+      if (fallback) fallback.focus();
+    });
+    return;
+  }
+
+  var link = document.createElement("a");
+  link.className = "btn";
+  link.id = "llhCheckoutBtn";
+  link.href = LLH_CHECKOUT_URL;
+  link.textContent = btn.textContent.trim();
+  btn.parentNode.replaceChild(link, btn);
+  if (note && note.parentNode) note.parentNode.removeChild(note);
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   initNav();
   captureSource(); // record first-touch source on landing, even before any form submit
   renderEvents();
   initContactForm();
   initResetForm();
+  initLongLiveHopeCheckout();
 });
