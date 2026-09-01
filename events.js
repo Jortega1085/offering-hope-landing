@@ -8,7 +8,7 @@ window.OH_EVENTS = [
     // (email 2026-08-27). So the date shows, but there is still no regUrl and
     // this row renders as plain text rather than a button.
     // To go live once she green-lights: set regUrl to the GHL payment link for
-    // product 6a90859ce37d85af3df927c2 and buttonLabel: "Save my seat — $30".
+    // product 6a91c02f0dacdd65b5790c1b and buttonLabel: "Save my seat — $30".
     name: "The Rebuild",
     dateISO: "2026-10-25",
     meta: "Saturday, October 25 · Two hours · $30 · Date to be confirmed",
