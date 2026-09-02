@@ -16,29 +16,29 @@ window.OH_WAYS = {
       title: "Start free",
       body: "Catch a Built To Break keynote, or start with The Hope Reset at home. Two free ways in.",
       actions: [
-        { label: "The keynote", href: "speaking.html" },
-        { label: "Start The Hope Reset", href: "free-reset.html" }
+        { label: "The keynote", href: "/speaking" },
+        { label: "Start The Hope Reset", href: "/free-reset" }
       ]
     },
     {
       title: "The Rebuild, {rebuild}",
       body: "Two hours, live. Built To Break cracked it open. The Rebuild is where you start putting it back together, on purpose this time.",
       actions: [
-        { label: "See the next date", href: "workshops.html" }
+        { label: "See the next date", href: "/workshops" }
       ]
     },
     {
       title: "Long Live Hope, {llhFounding}/month founding ({llhStandard} standard)",
       body: "The monthly membership. Two live calls a month, the frameworks in rotation, and a room doing the work with you. Join anytime. You'll never be behind.",
       actions: [
-        { label: "Join Long Live Hope", href: "long-live-hope.html" }
+        { label: "Join Long Live Hope", href: "/long-live-hope" }
       ]
     },
     {
       title: "1:1, {coaching60}/hour or {coaching30} for 30 minutes",
       body: "The deep work. Me and you, on whatever's loudest. Book when you need it.",
       actions: [
-        { label: "Book a session", href: "coaching.html" }
+        { label: "Book a session", href: "/coaching" }
       ]
     }
   ],
@@ -48,7 +48,7 @@ window.OH_WAYS = {
   coda: {
     body: "Want me in the room? Built To Break is the keynote for people who'd never sit in a therapy circle.",
     actions: [
-      { label: "Bring me to your people", href: "speaking.html" }
+      { label: "Bring me to your people", href: "/speaking" }
     ]
   }
 };
