@@ -20,6 +20,9 @@
 <meta property="og:url" content="https://offeringhope.co/coaching.html" />
 <meta property="og:image" content="https://offeringhope.co/assets/og-image.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
+<!-- price: coaching60 (150) and coaching30 (80) below are hand-synced with
+     prices.js. Structured data is read out of the raw HTML, so it cannot be
+     filled in by JavaScript — change a rate in prices.js and change it here. -->
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Service","serviceType":"Nervous system coaching","name":"1:1 Coaching with Hope Kimple","description":"One-on-one coaching through all three pillars — body, mind, and gut — applied to your life. Booked by the session.","provider":{"@type":"Person","name":"Hope Kimple","url":"https://offeringhope.co/about.html"},"areaServed":{"@type":"AdministrativeArea","name":"San Francisco Bay Area"},"offers":[{"@type":"Offer","price":"150","priceCurrency":"USD","description":"60-minute 1:1 session"},{"@type":"Offer","price":"80","priceCurrency":"USD","description":"30-minute 1:1 session"}]}
 </script>
@@ -62,25 +65,44 @@
 </section>
 
 <section class="block">
-  <div class="sec-label">Other ways to work with me</div>
+  <h2 class="sec-label">Rates</h2>
   <table class="offers">
-    <thead><tr><th>Offer</th><th>Price</th><th>What it is</th></tr></thead>
+    <thead><tr><th scope="col">Offer</th><th scope="col">Price</th><th scope="col">What it is</th></tr></thead>
     <tbody>
-      <tr><td>1:1 session — 60 minutes</td><td>$150</td><td>One focused hour on what's loudest right now</td></tr>
-      <tr><td>1:1 session — 30 minutes</td><td>$80</td><td>A shorter check-in when you need to reset</td></tr>
-      <tr><td>VIP half-day</td><td>$800</td><td>One deep afternoon. Come with a knot, leave with a plan</td></tr>
-      <tr><td>Full-year mentorship</td><td>$3,600</td><td>A year of ongoing support while the change takes root</td></tr>
+      <tr><td>1:1 session — 60 minutes</td><td><span data-price="coaching60">$150</span></td><td>One focused hour on what's loudest right now</td></tr>
+      <tr><td>1:1 session — 30 minutes</td><td><span data-price="coaching30">$80</span></td><td>A shorter check-in when you need to reset</td></tr>
+      <tr><td>VIP half-day</td><td><span data-price="vipHalfDay">$800</span></td><td>One deep afternoon. Come with a knot, leave with a plan</td></tr>
+      <tr><td>Full-year mentorship</td><td><span data-price="mentorship">$3,600</span></td><td>A year of ongoing support while the change takes root</td></tr>
     </tbody>
   </table>
+</section>
+
+<!-- WAYS TO WORK WITH ME
+     The copy lives in ways-to-work.js and is written once for index, about and
+     coaching. What follows is the no-JavaScript fallback: the same five doors
+     as plain links, carrying real prices. main.js replaces it with the full
+     section on load. Do not edit copy here — edit ways-to-work.js, and keep
+     this list's links and price fallbacks in step with it. -->
+<section class="block" id="ways-to-work">
+  <h2 class="sec-label">Ways to work with me</h2>
+  <ul class="way-fallback" role="list">
+    <li>Start free — <a href="speaking.html">the keynote</a> or <a href="free-reset.html">The Hope Reset</a></li>
+    <li><a href="workshops.html">The Rebuild, <span data-price="rebuild">$30</span></a></li>
+    <li><a href="long-live-hope.html">Long Live Hope, <span data-price="llhFounding">$55</span>/month founding (<span data-price="llhStandard">$77</span> standard)</a></li>
+    <li><a href="coaching.html">1:1, <span data-price="coaching60">$150</span>/hour or <span data-price="coaching30">$80</span> for 30 minutes</a></li>
+    <li><a href="speaking.html">Want me in the room?</a></li>
+  </ul>
 </section>
 </main>
 <footer class="foot">
   <div class="foot-brand">Offering Hope · Hands of Hope Wellness Center LLC · Hayward, CA</div>
   <div class="foot-nav">
-    <a href="workshops.html">Workshops</a>·<a href="coaching.html">Coaching</a>·<a href="long-live-hope.html">Long Live Hope</a>·<a href="speaking.html">Speaking</a>·<a href="shop.html">Shop</a>·<a href="about.html">About</a>·<a href="free-reset.html">Free Reset</a>·<a href="aho.html">Aho</a>·<a href="contact.html">Contact</a>
+    <a href="workshops.html">Workshops</a>·<a href="coaching.html">Coaching</a>·<a href="long-live-hope.html">Long Live Hope</a>·<a href="speaking.html">Speaking</a>·<a href="shop.html">Shop</a>·<a href="about.html">About</a>·<a href="free-reset.html">The Hope Reset</a>·<a href="aho.html">Aho</a>·<a href="contact.html">Contact</a>
   </div>
   <div class="foot-tag">There's Always Hope.</div>
 </footer>
+<script src="prices.js"></script>
+<script src="ways-to-work.js"></script>
 <script src="main.js"></script>
 </body>
 </html>
