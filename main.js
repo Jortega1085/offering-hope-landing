@@ -18,12 +18,88 @@ function pacificTodayISO() {
   return parts; // en-CA gives YYYY-MM-DD
 }
 
+// ---- Prices ----------------------------------------------------------------
+// Every number on the site comes from prices.js. Two ways it gets in:
+//
+//   1. <span data-price="rebuild">$30</span> in the HTML. The number typed
+//      inside the span is the fallback — it is what search engines and anyone
+//      with JavaScript off will see, so it has to be a real current number,
+//      never a placeholder. renderPrices() swaps in the value from prices.js.
+//   2. A {rebuild} slot inside a string in events.js or ways-to-work.js, which
+//      the fillers below resolve. Those files never contain a dollar figure.
+//
+// If a data-price fallback and prices.js disagree, prices.js wins on screen and
+// a console warning names the key. That warning is the signal that a fallback
+// in the HTML has gone stale and should be brought back in line.
+
+// Fills {key} slots in plain text. An unresolved slot takes its leading
+// " · " separator with it, so a missing price leaves a clean line rather than
+// a dangling divider.
+function fillPriceText(text) {
+  return String(text).replace(/(\s·\s)?\{(\w+)\}/g, function (whole, sep, key) {
+    var value = window.OH_PRICE ? window.OH_PRICE(key) : "";
+    return value ? (sep || "") + value : "";
+  });
+}
+
+function escapeHTML(str) {
+  return String(str).replace(/[&<>"]/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+  });
+}
+
+// Same {key} slots, but rendered as live data-price spans so a later
+// renderPrices() pass keeps them current. Throws on an unknown key so callers
+// can bail out rather than print a line with a hole where a price should be.
+function fillPriceSlotsHTML(text) {
+  return escapeHTML(text).replace(/\{(\w+)\}/g, function (whole, key) {
+    var value = window.OH_PRICE ? window.OH_PRICE(key) : "";
+    if (!value) throw new Error("Unknown price key: " + key);
+    return '<span data-price="' + key + '">' + escapeHTML(value) + "</span>";
+  });
+}
+
+// Names any hand-typed fallback that has drifted from prices.js. Called on a
+// subtree before that subtree is replaced, so fallbacks inside markup this
+// script overwrites still get checked.
+function warnOnStalePriceFallbacks(root) {
+  if (!window.OH_PRICES) return;
+  var nodes = (root || document).querySelectorAll("[data-price]");
+  for (var i = 0; i < nodes.length; i++) {
+    var key = nodes[i].getAttribute("data-price");
+    var value = window.OH_PRICE(key);
+    var fallback = nodes[i].textContent.trim();
+    if (value && fallback && fallback !== value) {
+      console.warn('[prices] "' + key + '" is ' + value + ' in prices.js, but an HTML fallback in ' +
+        document.title + ' still reads ' + fallback +
+        '. Update the fallback so the no-JavaScript view stays correct.');
+    }
+  }
+}
+
+function renderPrices() {
+  var nodes = document.querySelectorAll("[data-price]");
+  if (!nodes.length) return;
+  if (!window.OH_PRICES) {
+    console.warn("[prices] prices.js is not loaded on this page — the HTML fallbacks are showing instead.");
+    return;
+  }
+  warnOnStalePriceFallbacks(document);
+  for (var i = 0; i < nodes.length; i++) {
+    var value = window.OH_PRICE(nodes[i].getAttribute("data-price"));
+    if (!value) continue; // unknown key — keep the fallback; OH_PRICE already warned
+    nodes[i].textContent = value;
+  }
+}
+
 function eventRowHTML(ev) {
-  var when = ev.dateISO ? ev.meta : (ev.cycleWindow + " · " + ev.meta);
+  var meta = fillPriceText(ev.meta);
+  var when = ev.dateISO ? meta : (ev.cycleWindow + " · " + meta);
+  var label = fillPriceText(ev.buttonLabel || "Free to attend");
   // Free / walk-in events have no regUrl — render a plain note, not a dead link.
   var cta = ev.regUrl
-    ? '<a class="btn ev-cta" href="' + ev.regUrl + '">' + ev.buttonLabel + '</a>'
-    : '<span class="ev-cta ev-note-inline">' + (ev.buttonLabel || "Free to attend") + '</span>';
+    ? '<a class="btn ev-cta" href="' + ev.regUrl + '">' + label + '</a>'
+    : '<span class="ev-cta ev-note-inline">' + label + '</span>';
   return '<div class="event-row">' +
     '<span class="ev-name">' + ev.name + '</span>' +
     '<span class="ev-meta">' + when + '</span>' +
@@ -50,10 +126,63 @@ function renderEvents() {
     }
   } catch (e) {
     var fallback = '<div class="event-row"><span class="ev-name">The Rebuild</span>' +
-      '<span class="ev-meta">Two hours · $30 · the paid next step after the Built To Break keynote</span>' +
+      '<span class="ev-meta">' +
+        fillPriceText("Two hours · {rebuild} · the paid next step after the Built To Break keynote") +
+      '</span>' +
       '<span class="ev-cta ev-note-inline">Date coming soon</span></div>';
     if (listEl) listEl.innerHTML = fallback;
     if (nextEl) nextEl.innerHTML = fallback;
+  }
+}
+
+// ---- Ways to work with me --------------------------------------------------
+// The section is written once in ways-to-work.js and rendered here, so index,
+// about and coaching always agree. Each of those pages ships a short static
+// list of the same doors inside #ways-to-work; this replaces it with the full
+// section. If ways-to-work.js is missing, a price key is wrong, or JavaScript
+// never runs, that shipped list stands on its own and every link still works —
+// the section is never empty.
+function waysActionsHTML(actions) {
+  var links = (actions || []).map(function (a) {
+    return '<a href="' + escapeHTML(a.href) + '">' + escapeHTML(a.label) + "</a>";
+  }).join("");
+  return links ? '<div class="way-actions">' + links + "</div>" : "";
+}
+
+function waysHTML(ways) {
+  var items = ways.entries.map(function (entry) {
+    return '<li class="way">' +
+      '<span class="way-node" aria-hidden="true"></span>' +
+      '<h3 class="way-title">' + fillPriceSlotsHTML(entry.title) + "</h3>" +
+      '<p class="way-body">' + escapeHTML(entry.body) + "</p>" +
+      waysActionsHTML(entry.actions) +
+    "</li>";
+  }).join("");
+
+  var coda = ways.coda
+    ? '<div class="way-coda">' +
+        '<p class="way-body">' + escapeHTML(ways.coda.body) + "</p>" +
+        waysActionsHTML(ways.coda.actions) +
+      "</div>"
+    : "";
+
+  // role="list" because list-style:none strips list semantics in Safari.
+  return '<h2 class="sec-label">' + escapeHTML(ways.label) + "</h2>" +
+    '<ul class="way-path" role="list">' + items + "</ul>" + coda;
+}
+
+function renderWaysToWork() {
+  var host = document.getElementById("ways-to-work");
+  if (!host) return;
+  if (host.querySelector(".way-path")) return; // already upgraded
+  var ways = window.OH_WAYS;
+  if (!ways || !ways.entries || !ways.entries.length) return;
+  try {
+    var html = waysHTML(ways); // built in full first, so a throw leaves the static list alone
+    warnOnStalePriceFallbacks(host); // check the static list before it is overwritten
+    host.innerHTML = html;
+  } catch (err) {
+    console.error("[ways-to-work] keeping the static fallback:", err);
   }
 }
 
@@ -341,11 +470,25 @@ function initLongLiveHopeCheckout() {
   if (note && note.parentNode) note.parentNode.removeChild(note);
 }
 
+// Content renderers, in dependency order: ways-to-work injects data-price spans
+// of its own, so it goes before renderPrices.
+function renderContent() {
+  renderWaysToWork();
+  renderEvents();
+  renderPrices();
+}
+
+// Every script tag on this site sits at the end of <body>, so the markup these
+// touch is already parsed. Rendering straight away rather than waiting for
+// DOMContentLoaded keeps the ways-to-work fallback list from painting for a
+// frame before the real section replaces it.
+renderContent();
+
 document.addEventListener("DOMContentLoaded", function () {
   initNav();
   captureSource(); // record first-touch source on landing, even before any form submit
-  renderEvents();
+  renderContent(); // idempotent — the safety net if a script tag ever moves into <head>
   initContactForm();
   initResetForm();
-  initLongLiveHopeCheckout();
+  initLongLiveHopeCheckout(); // copies the button's label, so it runs after prices land
 });
