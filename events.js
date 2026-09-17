@@ -5,15 +5,15 @@
 window.OH_EVENTS = [
   {
     // The paid next step after the free Built To Break keynote.
-    // Oct 25 2026 is TENTATIVE — Hope is holding the date and has explicitly
-    // asked that registration and checkout stay off until she confirms
-    // (email 2026-08-27). So the date shows, but there is still no regUrl and
-    // this row renders as plain text rather than a button.
-    // To go live once she green-lights: set regUrl to the GHL payment link for
-    // product 6a91c02f0dacdd65b5790c1b and buttonLabel: "Save my seat — {rebuild}".
+    // Date and venue CONFIRMED on the 2026-09-17 call: Hope booked Michael's
+    // place (Caliber Cabinets, Livermore) and confirmed with him during the
+    // call. This replaces the tentative Oct 25 hold.
+    // Registration is still dark on purpose — the date is settled but no GHL
+    // payment link has been issued for this event yet. To open it: set regUrl
+    // to the payment link and buttonLabel: "Save my seat — {rebuild}".
     name: "The Rebuild",
-    dateISO: "2026-10-25",
-    meta: "Saturday, October 25 · Two hours · {rebuild} · Date to be confirmed",
+    dateISO: "2026-11-07",
+    meta: "Saturday, November 7 · 11am–1pm · Caliber Cabinets, Livermore · {rebuild}",
     buttonLabel: "Registration opens soon"
   }
   // Next Built To Break keynote — uncomment and fill in when a date is booked:

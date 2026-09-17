@@ -7,7 +7,7 @@
      offer further down; llhStandard ($77) is in that offer's description too.
      Search engines read these out of the raw HTML, so JavaScript cannot fill
      them — change a rate in prices.js and change them here by hand. -->
-<meta name="description" content="Long Live Hope is Hope Kimple's monthly group coaching membership. Two live group calls a month, three frameworks in open rotation, founding rate $55 a month locked for life for the first five members." />
+<meta name="description" content="Long Live Hope is Hope Kimple's monthly group coaching membership. Two live group calls a month, three frameworks in open rotation, founding rate $55 a month locked for life for the first ten members." />
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <link rel="icon" type="image/png" href="assets/favicon.png" />
@@ -25,13 +25,13 @@
 <meta property="og:image" content="https://offeringhope.co/assets/og-image.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
 <!-- Service markup only. No Event, and no priceValidUntil: the founding window
-     closes on a count, not a date (first five members, decided 2026-09-02), so
+     closes on a count, not a date (first ten members, decided 2026-09-17), so
      there is no honest date to emit. Availability is PreOrder while checkout is
      dark (see LLH_CHECKOUT_URL in main.js); flip it to InStock the same day the
      payment link is pasted in. The offer description below is kept word-for-word
      in step with the visible founding-rate copy. -->
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Service","name":"Long Live Hope","serviceType":"Group coaching membership","description":"A monthly group coaching membership with Hope Kimple. Two live group calls every month — one to do the work, one to come back and reflect on it — built on three frameworks in open rotation.","url":"https://offeringhope.co/long-live-hope","provider":{"@type":"Person","name":"Hope Kimple","url":"https://offeringhope.co/about"},"offers":{"@type":"Offer","name":"Long Live Hope — Founding Member","price":"55","priceCurrency":"USD","availability":"https://schema.org/PreOrder","url":"https://offeringhope.co/long-live-hope","description":"Founding rate. $55 a month, locked for life. The first five members only; after that the rate is $77 a month."}}
+{"@context":"https://schema.org","@type":"Service","name":"Long Live Hope","serviceType":"Group coaching membership","description":"A monthly group coaching membership with Hope Kimple. Two live group calls every month — one to do the work, one to come back and reflect on it — built on three frameworks in open rotation.","url":"https://offeringhope.co/long-live-hope","provider":{"@type":"Person","name":"Hope Kimple","url":"https://offeringhope.co/about"},"offers":{"@type":"Offer","name":"Long Live Hope — Founding Member","price":"55","priceCurrency":"USD","availability":"https://schema.org/PreOrder","url":"https://offeringhope.co/long-live-hope","description":"Founding rate. $55 a month, locked for life. The first ten members only. The next group joins at $66 a month, and the standard rate after that is $77 a month."}}
 </script>
 </head>
 <body>
@@ -94,9 +94,9 @@
 
 <section class="block" id="join">
   <h2 class="sec-label">Founding rate</h2>
-  <p class="earlybird">Founding rate: <strong><span data-price="llhFounding">$55</span> a month, locked for life.</strong> The first five members.</p>
+  <p class="earlybird">Founding rate: <strong><span data-price="llhFounding">$55</span> a month, locked for life.</strong> The first ten members.</p>
   <div class="prose">
-    <p>Founding is the first five members. Not a date — a count. When the fifth spot is taken, the rate goes to <span data-price="llhStandard">$77</span> a month for everyone after that. Join before then and <span data-price="llhFounding">$55</span> stays yours for as long as you're a member.</p>
+    <p>Founding is the first ten members. Not a date — a count. When the tenth spot is taken, the next group joins at <span data-price="llhMid">$66</span> a month, and the rate settles at <span data-price="llhStandard">$77</span> after that. Join while founding is open and <span data-price="llhFounding">$55</span> stays yours for as long as you're a member.</p>
   </div>
 
   <!-- Checkout renders in its UNAVAILABLE state right here in the HTML, with no

@@ -10,8 +10,9 @@ window.OH_PRICES = {
   coaching30:  "$80",     // 1:1 session, 30 minutes
   vipHalfDay:  "$800",    // VIP half-day
   mentorship:  "$3,600",  // Full-year mentorship
-  llhFounding: "$55",     // Long Live Hope — founding rate (first five members)
-  llhStandard: "$77",     // Long Live Hope — standard rate after founding closes
+  llhFounding: "$55",     // Long Live Hope — founding rate (first TEN members, set 2026-09-17)
+  llhMid:      "$66",     // Long Live Hope — second tier, after the founding ten
+  llhStandard: "$77",     // Long Live Hope — standard rate once the second tier closes
   journal:     "$39"      // The Body Speaks oracle deck (shop.html)
 };
 
@@ -27,6 +28,7 @@ window.OH_PRICES = {
 //   coaching60   coaching.html   JSON-LD "price":"150"
 //   coaching30   coaching.html   JSON-LD "price":"80"
 //   llhFounding  long-live-hope.html  meta description + JSON-LD "price":"55"
+//   llhMid       long-live-hope.html  visible tier copy only (not in JSON-LD)
 //   journal      shop.html       JSON-LD "price":"39"
 //
 // To find them all at once, from the site folder:
