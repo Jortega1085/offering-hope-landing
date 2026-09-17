@@ -199,4 +199,8 @@ body.aho::before { opacity:0.08; } /* dial the sitewide lotus back on Aho */
 .aho-product h4 { font-family:var(--serif); font-size:24px; margin-bottom:8px; }
 .aho-product p { font-family:var(--serif); font-size:17px; color:var(--ink-soft); line-height:1.6; }
 .aho-where a { color:var(--aho-green); text-decoration:underline; text-underline-offset:3px; }
+.aho-voices .aho-quote { border-left:2px solid var(--aho-green); padding:2px 0 2px 20px; margin:22px 0; }
+.aho-voices .aho-quote p { font-family:var(--serif); font-size:19px; font-style:italic; line-height:1.6; color:var(--ink-soft); margin:0 0 10px; }
+.aho-voices .aho-quote cite { font-family:var(--sans); font-style:normal; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:var(--aho-green); }
+@media (max-width:640px) { .aho-voices .aho-quote p { font-size:17px; } .aho-voices .aho-quote { padding-left:16px; } }
 .aho-disclaimer { font-family:var(--sans); font-size:11px; line-height:1.6; color:var(--muted); border-top:1px solid rgba(32,57,44,0.25); margin-top:40px; padding-top:20px; }
