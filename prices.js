@@ -5,14 +5,13 @@
 // Write the value exactly as it should read on the page, dollar sign included.
 // ============================================================================
 window.OH_PRICES = {
-  rebuild:     "$30",     // The Rebuild — two-hour workshop
-  coaching60:  "$150",    // 1:1 session, 60 minutes
+  rebuild:     "$55",     // The Rebuild — two-hour workshop (set 2026-09-18)
+  coaching60:  "$225",    // 1:1 session, 60 minutes (set 2026-09-18)
   coaching30:  "$80",     // 1:1 session, 30 minutes
   vipHalfDay:  "$800",    // VIP half-day
   mentorship:  "$3,600",  // Full-year mentorship
-  llhFounding: "$55",     // Long Live Hope — founding rate (first TEN members, set 2026-09-17)
-  llhMid:      "$66",     // Long Live Hope — second tier, after the founding ten
-  llhStandard: "$77",     // Long Live Hope — standard rate once the second tier closes
+  llhFounding: "$88",     // Long Live Hope — founding rate, first TEN members, locked for life (set 2026-09-18)
+  llhStandard: "$111",    // Long Live Hope — standard rate once the founding ten fill (set 2026-09-18)
   journal:     "$39"      // The Body Speaks oracle deck (shop.html)
 };
 
@@ -24,11 +23,10 @@ window.OH_PRICES = {
 // and change the matching one. Each spot is marked in the HTML with a comment
 // that names its key, e.g. <!-- price: rebuild — keep in sync with prices.js -->
 //
-//   rebuild      workshops.html  meta description + JSON-LD "price":"30"
-//   coaching60   coaching.html   JSON-LD "price":"150"
+//   rebuild      workshops.html  meta description + JSON-LD "price":"55"
+//   coaching60   coaching.html   JSON-LD "price":"225"
 //   coaching30   coaching.html   JSON-LD "price":"80"
-//   llhFounding  long-live-hope.html  meta description + JSON-LD "price":"55"
-//   llhMid       long-live-hope.html  visible tier copy only (not in JSON-LD)
+//   llhFounding  long-live-hope.html  meta description + JSON-LD "price":"88"
 //   journal      shop.html       JSON-LD "price":"39"
 //
 // To find them all at once, from the site folder:
