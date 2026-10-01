@@ -241,9 +241,10 @@ function attachSource(data) {
 }
 
 // -- GHL lead wiring -------------------------------------------------------
-// One inbound webhook feeds every form on the site. Every payload carries a
-// form_type field ("contact" or "free-reset") so a single GHL workflow can
-// branch on which form it came from.
+// One inbound webhook feeds the site's custom forms (today: the Free Reset
+// form). Every payload carries a form_type field so a single GHL workflow can
+// branch on which form it came from. The contact page uses an embedded GHL
+// form instead ("Offering Hope — Contact (SMS opt-in)", 40iAfQzkr728FmjxOrPw).
 //
 // To wire it up: GHL > Automation > Workflows > Create Workflow > add an
 // "Inbound Webhook" trigger, copy the URL it generates, paste it below, then
@@ -311,72 +312,6 @@ function renderFallback(el, href) {
   ));
 }
 
-function initContactForm() {
-  var form = document.getElementById("contactForm");
-  var wrap = document.getElementById("contactWrap");
-  if (!form || !wrap) return;
-  var submit = document.getElementById("contactSubmit");
-  var submitLabel = submit ? submit.textContent : "Send message";
-  var formError = document.getElementById("contactError");
-
-  function showSendError() {
-    if (formError) {
-      formError.textContent =
-        "Something went wrong sending this. Please email hope@offeringhope.co directly.";
-    }
-    if (submit) { submit.disabled = false; submit.textContent = submitLabel; }
-  }
-
-  function validate() {
-    var ok = true;
-    var firstInvalid = null;
-    ["name", "email", "reason", "message"].forEach(function (id) {
-      var el = document.getElementById(id);
-      var f = el.closest(".field");
-      if (!el.value.trim()) {
-        f.classList.add("has-error");
-        el.setAttribute("aria-invalid", "true");
-        if (!firstInvalid) firstInvalid = el;
-        ok = false;
-      } else {
-        f.classList.remove("has-error");
-        el.removeAttribute("aria-invalid");
-      }
-    });
-    var email = document.getElementById("email");
-    if (email.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
-      email.closest(".field").classList.add("has-error");
-      email.setAttribute("aria-invalid", "true");
-      if (!firstInvalid) firstInvalid = email;
-      ok = false;
-    }
-    if (firstInvalid) firstInvalid.focus();
-    return ok;
-  }
-
-  form.addEventListener("submit", async function (e) {
-    e.preventDefault();
-    if (formError) formError.textContent = "";
-    if (!validate()) return;
-    submit.disabled = true;
-    submit.textContent = "Sending…";
-    var data = Object.fromEntries(new FormData(form).entries());
-    data.subject = "[Website] " + (data.reason || "Contact") + " — " + (data.name || "");
-    data.form_type = "contact";
-    attachSource(data);
-    var result = await postLead(data);
-    if (result === "sent") {
-      wrap.classList.add("submitted"); // success only after a resolved, ok response
-    } else if (result === "fallback") {
-      // No webhook yet. Hand the visitor a pre-filled email rather than a
-      // dead end, and never mark this as submitted.
-      renderFallback(formError, fallbackMailto(data, data.subject));
-      if (submit) { submit.disabled = false; submit.textContent = submitLabel; }
-    } else {
-      showSendError();
-    }
-  });
-}
 
 function initResetForm() {
   var form = document.getElementById("resetForm");
@@ -488,7 +423,6 @@ document.addEventListener("DOMContentLoaded", function () {
   initNav();
   captureSource(); // record first-touch source on landing, even before any form submit
   renderContent(); // idempotent — the safety net if a script tag ever moves into <head>
-  initContactForm();
   initResetForm();
   initLongLiveHopeCheckout(); // copies the button's label, so it runs after prices land
 });
