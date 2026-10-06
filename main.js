@@ -363,6 +363,7 @@ function initResetForm() {
     submit.disabled = true;
     submit.textContent = "Sending…";
     var data = attachSource(Object.fromEntries(new FormData(form).entries()));
+    data.name = data.first_name.trim();
     data.form_type = "free-reset";
     data.subject = "[Website] Free Reset request — " + (data.first_name || "");
     var result = await postLead(data);
