@@ -7,7 +7,7 @@
 window.OH_PRICES = {
   rebuild:     "$55",     // The Rebuild — two-hour workshop (set 2026-09-18)
   coaching60:  "$225",    // 1:1 session, 60 minutes (set 2026-09-18)
-  coaching30:  "$80",     // 1:1 session, 30 minutes
+  coaching30:  "$125",    // 1:1 session, 30 minutes (set 2026-10-03)
   vipHalfDay:  "$800",    // VIP half-day
   mentorship:  "$3,600",  // Full-year mentorship
   llhFounding: "$88",     // Long Live Hope — founding rate, first TEN members, locked for life (set 2026-09-18)
@@ -25,7 +25,7 @@ window.OH_PRICES = {
 //
 //   rebuild      workshops.html  meta description + JSON-LD "price":"55"
 //   coaching60   coaching.html   JSON-LD "price":"225"
-//   coaching30   coaching.html   JSON-LD "price":"80"
+//   coaching30   coaching.html   JSON-LD "price":"125"
 //   llhFounding  long-live-hope.html  meta description + JSON-LD "price":"88"
 //   journal      shop.html       JSON-LD "price":"39"
 //
