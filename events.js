@@ -8,13 +8,14 @@ window.OH_EVENTS = [
     // Date and venue CONFIRMED on the 2026-09-17 call: Hope booked Michael's
     // place (Caliber Cabinets, Livermore) and confirmed with him during the
     // call. This replaces the tentative Oct 25 hold.
-    // Registration is still dark on purpose — the date is settled but no GHL
-    // payment link has been issued for this event yet. To open it: set regUrl
-    // to the payment link and buttonLabel: "Save my seat — {rebuild}".
+    // Registration OPEN 2026-10-19 (Hope's go-ahead by text): GHL payment link
+    // "The Rebuild (Nov 7)", $55. No seat cap. No refunds; a no-show's payment
+    // becomes a credit toward the next Rebuild. Address confirmed as Unit A.
     name: "The Rebuild",
     dateISO: "2026-11-07",
-    meta: "Saturday, November 7 · 11am–1pm · Caliber Cabinets, Livermore · {rebuild}",
-    buttonLabel: "Registration opens soon"
+    meta: "Saturday, November 7 · 11am–1pm · Caliber Cabinets, 5640 La Ribera St, Unit A, Livermore · {rebuild}",
+    regUrl: "https://links.offeringhope.co/payment-link/6abe8f8fc0e70c7fefb71d2b",
+    buttonLabel: "Save my seat — {rebuild}"
   }
   // Next Built To Break keynote — uncomment and fill in when a date is booked:
   // ,{
